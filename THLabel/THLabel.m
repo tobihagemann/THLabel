@@ -38,7 +38,7 @@
 
 #import "THLabel.h"
 
-#ifndef NS_ENUM_AVAILABLE_IOS
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_6_0
 typedef enum {
 	NSTextAlignmentLeft = UITextAlignmentLeft,
 	NSTextAlignmentCenter = UITextAlignmentCenter,
@@ -59,14 +59,14 @@ typedef enum {
 	return [self.gradientColors count] ? [self.gradientColors objectAtIndex:0] : nil;
 }
 
-- (void)setGradientStartColor:(UIColor *)color {
-	if (color == nil) {
+- (void)setGradientStartColor:(UIColor *)gradientStartColor {
+	if (gradientStartColor == nil) {
 		self.gradientColors = nil;
 	} else if ([self.gradientColors count] < 2) {
-		self.gradientColors = [NSArray arrayWithObjects:color, color, nil];
-	} else if ([self.gradientColors objectAtIndex:0] != color) {
+		self.gradientColors = [NSArray arrayWithObjects:gradientStartColor, gradientStartColor, nil];
+	} else if ([self.gradientColors objectAtIndex:0] != gradientStartColor) {
 		NSMutableArray *colors = [self.gradientColors mutableCopy];
-		[colors replaceObjectAtIndex:0 withObject:color];
+		[colors replaceObjectAtIndex:0 withObject:gradientStartColor];
 		self.gradientColors = colors;
 	}
 }
@@ -75,28 +75,28 @@ typedef enum {
 	return [self.gradientColors lastObject];
 }
 
-- (void)setGradientEndColor:(UIColor *)color {
-	if (color == nil) {
+- (void)setGradientEndColor:(UIColor *)gradientEndColor {
+	if (gradientEndColor == nil) {
 		self.gradientColors = nil;
 	} else if ([self.gradientColors count] < 2) {
-		self.gradientColors = [NSArray arrayWithObjects:color, color, nil];
-	} else if ([self.gradientColors lastObject] != color) {
+		self.gradientColors = [NSArray arrayWithObjects:gradientEndColor, gradientEndColor, nil];
+	} else if ([self.gradientColors lastObject] != gradientEndColor) {
 		NSMutableArray *colors = [self.gradientColors mutableCopy];
-		[colors replaceObjectAtIndex:[colors count] - 1 withObject:color];
+		[colors replaceObjectAtIndex:[colors count] - 1 withObject:gradientEndColor];
 		self.gradientColors = colors;
 	}
 }
 
-- (void)setGradientColors:(NSArray *)colors {
-	if (self.gradientColors != colors) {
-		_gradientColors = [colors copy];
+- (void)setGradientColors:(NSArray *)gradientColors {
+	if (self.gradientColors != gradientColors) {
+		_gradientColors = [gradientColors copy];
 		[self setNeedsDisplay];
 	}
 }
 
-- (void)setTextInsets:(UIEdgeInsets)insets {
-	if (!UIEdgeInsetsEqualToEdgeInsets(self.textInsets, insets)) {
-		_textInsets = insets;
+- (void)setTextInsets:(UIEdgeInsets)textInsets {
+	if (!UIEdgeInsetsEqualToEdgeInsets(self.textInsets, textInsets)) {
+		_textInsets = textInsets;
 		[self setNeedsDisplay];
 	}
 }
@@ -120,10 +120,10 @@ typedef enum {
 	// -------
 	
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	// -------
-	// Step 2: Draw text normally or with gradient.
+	// Step 2: Draw text normally, or with gradient.
 	// -------
 	
 	CGContextSaveGState(context);
@@ -294,10 +294,13 @@ typedef enum {
 - (CGRect)textRectFromContentRect:(CGRect)contentRect actualFontSize:(CGFloat *)actualFontSize {
 	CGRect textRect = contentRect;
 	CGFloat minFontSize;
-	
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
 	if ([self respondsToSelector:@selector(minimumScaleFactor)]) {
 		minFontSize = self.minimumScaleFactor ? self.minimumScaleFactor * *actualFontSize : *actualFontSize;
-	} else {
+	}
+#endif
+	else {
 		minFontSize = self.minimumFontSize ? : *actualFontSize;
 	}
 	
