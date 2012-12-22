@@ -10,7 +10,7 @@
 //  FXLabel by Nick Lockwood,
 //  https://github.com/nicklockwood/FXLabel
 //  KSLabel by Kai Schweiger,
-//  http://www.vigorouscoding.com/2012/02/custom-gradient-uilabel-with-an-outline/
+//  https://github.com/vigorouscoding/KSLabel
 //
 //  Distributed under the permissive zlib license
 //  Get the latest version from here:

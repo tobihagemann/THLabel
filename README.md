@@ -65,7 +65,7 @@ THLabels are slower to draw than UILabels, because it is heavily using Core Grap
 Original source and inspiration from:
 
 - FXLabel by Nick Lockwood, https://github.com/nicklockwood/FXLabel
-- KSLabel by Kai Schweiger, http://www.vigorouscoding.com/2012/02/custom-gradient-uilabel-with-an-outline/
+- KSLabel by Kai Schweiger, https://github.com/vigorouscoding/KSLabel
 
 ## License
 
