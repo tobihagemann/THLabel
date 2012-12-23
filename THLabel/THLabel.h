@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.0.1
+//  Version 1.0.2
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2012 tobiha.de. All rights reserved.

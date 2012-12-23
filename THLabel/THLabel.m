@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.0.1
+//  Version 1.0.2
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2012 tobiha.de. All rights reserved.
@@ -135,9 +135,8 @@ typedef enum {
 			// Text needs invisible stroke for consistent character glyph widths.
 			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
 			
-			// Stroke width times 2, because we can only draw a centered stroke. We want outer strokes.
-			CGContextSetLineWidth(context, self.strokeSize * 2.0f);
-			CGContextSetLineJoin(context, kCGLineJoinRound);
+			// Set stroke attributes.
+			[self setStrokeAttributesInContext:context];
 			
 			// Set invisible stroke.
 			[[UIColor clearColor] setStroke];
@@ -171,9 +170,8 @@ typedef enum {
 			// Text needs invisible stroke for consistent character glyph widths.
 			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
 			
-			// Stroke width times 2, because we can only draw a centered stroke. We want outer strokes.
-			CGContextSetLineWidth(context, self.strokeSize * 2.0f);
-			CGContextSetLineJoin(context, kCGLineJoinRound);
+			// Set stroke attributes.
+			[self setStrokeAttributesInContext:context];
 			
 			// Set invisible stroke.
 			[[UIColor clearColor] setStroke];
@@ -240,18 +238,7 @@ typedef enum {
 		}
 		
 		// Set stroke attributes.
-		switch (self.strokePosition) {
-			case THLabelStrokePositionCenter:
-				CGContextSetLineWidth(context, self.strokeSize);
-				CGContextSetLineJoin(context, kCGLineJoinRound);
-				break;
-				
-			default:
-				// Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
-				CGContextSetLineWidth(context, self.strokeSize * 2.0f);
-				CGContextSetLineJoin(context, kCGLineJoinRound);
-				break;
-		}
+		[self setStrokeAttributesInContext:context];
 		
 		// Set stroke color.
 		[self.strokeColor setStroke];
@@ -329,6 +316,15 @@ typedef enum {
 	}
 }
 
+- (void)drawTextInRect:(CGRect)rect withFont:(UIFont *)font {
+	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1 && font.pointSize < self.font.pointSize) {
+		CGFloat fontSize = 0.0f;
+		[self.text drawAtPoint:rect.origin forWidth:rect.size.width withFont:self.font minFontSize:font.pointSize actualFontSize:&fontSize lineBreakMode:self.lineBreakMode baselineAdjustment:self.baselineAdjustment];
+	} else {
+		[self.text drawInRect:rect withFont:font lineBreakMode:self.lineBreakMode alignment:self.textAlignment];
+	}
+}
+
 - (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {
 	CGRect contentRect = CGRectMake(0.0f, 0.0f, bounds.size.width, bounds.size.height);
 	
@@ -339,6 +335,21 @@ typedef enum {
 	contentRect.size.height -= insets.top + insets.bottom;
 	
 	return contentRect;
+}
+
+- (void)setStrokeAttributesInContext:(CGContextRef)context {
+	switch (self.strokePosition) {
+		case THLabelStrokePositionCenter:
+			CGContextSetLineWidth(context, self.strokeSize);
+			CGContextSetLineJoin(context, kCGLineJoinRound);
+			break;
+			
+		default:
+			// Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
+			CGContextSetLineWidth(context, self.strokeSize * 2.0f);
+			CGContextSetLineJoin(context, kCGLineJoinRound);
+			break;
+	}
 }
 
 - (CGRect)textRectFromContentRect:(CGRect)contentRect actualFontSize:(CGFloat *)actualFontSize {
@@ -396,15 +407,6 @@ typedef enum {
 	}
 	
 	return textRect;
-}
-
-- (void)drawTextInRect:(CGRect)rect withFont:(UIFont *)font {
-	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1 && font.pointSize < self.font.pointSize) {
-		CGFloat fontSize = 0.0f;
-		[self.text drawAtPoint:rect.origin forWidth:rect.size.width withFont:self.font minFontSize:font.pointSize actualFontSize:&fontSize lineBreakMode:self.lineBreakMode baselineAdjustment:self.baselineAdjustment];
-	} else {
-		[self.text drawInRect:rect withFont:font lineBreakMode:self.lineBreakMode alignment:self.textAlignment];
-	}
 }
 
 #pragma mark -
