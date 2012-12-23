@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.0
+//  Version 1.0.1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2012 tobiha.de. All rights reserved.
@@ -49,7 +49,7 @@ typedef enum {
 @implementation THLabel
 
 @synthesize shadowBlur = _shadowBlur;
-@synthesize strokeSize = _strokeSize, strokeColor = _strokeColor;
+@synthesize strokeSize = _strokeSize, strokeColor = _strokeColor, strokePosition = _strokePosition;
 @synthesize gradientStartColor = _gradientStartColor, gradientEndColor = _gradientEndColor, gradientColors = _gradientColors, gradientStartPoint = _gradientStartPoint, gradientEndPoint = _gradientEndPoint;
 @synthesize textInsets = _textInsets;
 
@@ -114,6 +114,7 @@ typedef enum {
 	BOOL hasShadow = self.shadowColor && ![self.shadowColor isEqual:[UIColor clearColor]] && (self.shadowBlur > 0.0f || !CGSizeEqualToSize(self.shadowOffset, CGSizeZero));
 	BOOL hasStroke = self.strokeSize > 0 && ![self.strokeColor isEqual:[UIColor clearColor]];
 	BOOL hasGradient = [self.gradientColors count] > 1;
+	BOOL needsMask = hasGradient || (hasStroke && self.strokePosition == THLabelStrokePositionInside);
 	
 	// -------
 	// Step 1: Begin new drawing context, where we will apply all our styles.
@@ -121,59 +122,76 @@ typedef enum {
 	
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
 	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGImageRef alphaMask = NULL;
 	
 	// -------
-	// Step 2: Draw text normally, or with gradient.
+	// Step 2: Prepare mask.
+	// -------
+	
+	if (needsMask) {
+		CGContextSaveGState(context);
+		
+		if (hasStroke) {
+			// Text needs invisible stroke for consistent character glyph widths.
+			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
+			
+			// Stroke width times 2, because we can only draw a centered stroke. We want outer strokes.
+			CGContextSetLineWidth(context, self.strokeSize * 2.0f);
+			CGContextSetLineJoin(context, kCGLineJoinRound);
+			
+			// Set invisible stroke.
+			[[UIColor clearColor] setStroke];
+		} else {
+			CGContextSetTextDrawingMode(context, kCGTextFill);
+		}
+		
+		// Set white color for alpha mask.
+		[[UIColor whiteColor] setFill];
+		
+		// Draw alpha mask.
+		[self drawTextInRect:textRect withFont:font];
+		
+		// Save alpha mask.
+		alphaMask = CGBitmapContextCreateImage(context);
+		
+		// Clear the content.
+		CGContextClearRect(context, contentRect);
+		
+		CGContextRestoreGState(context);
+	}
+	
+	// -------
+	// Step 3: Draw text normally, or with gradient.
 	// -------
 	
 	CGContextSaveGState(context);
 	
-	if (hasStroke) {
-		// Text needs invisible stroke for consistent character glyph widths.
-		CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-		
-		// Stroke width times 2, because we can only draw a centered stroke. We want outer strokes.
-		CGContextSetLineWidth(context, self.strokeSize * 2.0f);
-		CGContextSetLineJoin(context, kCGLineJoinRound);
-		
-		// Set invisible stroke.
-		[[UIColor clearColor] setStroke];
-	} else {
-		CGContextSetTextDrawingMode(context, kCGTextFill);
-	}
-	
 	if (!hasGradient) {
+		if (hasStroke) {
+			// Text needs invisible stroke for consistent character glyph widths.
+			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
+			
+			// Stroke width times 2, because we can only draw a centered stroke. We want outer strokes.
+			CGContextSetLineWidth(context, self.strokeSize * 2.0f);
+			CGContextSetLineJoin(context, kCGLineJoinRound);
+			
+			// Set invisible stroke.
+			[[UIColor clearColor] setStroke];
+		} else {
+			CGContextSetTextDrawingMode(context, kCGTextFill);
+		}
+		
 		// Set text fill color.
 		[self.textColor setFill];
 		
 		// Draw text.
 		[self drawTextInRect:textRect withFont:font];
 	} else {
-		// -------
-		// Step 2a: Create alpha mask for gradient.
-		// -------
-		
-		// Set white color for gradient alpha mask.
-		[[UIColor whiteColor] setFill];
-		
-		// Draw gradient alpha mask.
-		[self drawTextInRect:textRect withFont:font];
-		
-		// Save gradient alpha mask.
-		CGImageRef alphaMask = CGBitmapContextCreateImage(context);
-		
-		// Clear the content.
-		CGContextClearRect(context, contentRect);
-		
-		// -------
-		// Step 2b: Draw gradient in clipped mask.
-		// -------
-		
 		// Invert everything, because CG works with an inverted coordinate system.
 		CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
 		CGContextScaleCTM(context, 1.0f, -1.0f);
 		
-		// Clip the current context to gradient alpha mask.
+		// Clip the current context to alpha mask.
 		CGContextClipToMask(context, contentRect, alphaMask);
 		
 		// Invert back to draw the gradient correctly.
@@ -201,13 +219,12 @@ typedef enum {
 		// Clean up, because ARC doesn't handle CG.
 		CGColorSpaceRelease(colorSpace);
 		CGGradientRelease(gradient);
-		CGImageRelease(alphaMask);
 	}
 	
 	CGContextRestoreGState(context);
 	
 	// -------
-	// Step 3: Draw stroke.
+	// Step 4: Draw stroke.
 	// -------
 	
 	if (hasStroke) {
@@ -215,34 +232,63 @@ typedef enum {
 		
 		CGContextSetTextDrawingMode(context, kCGTextStroke);
 		
-		// Create an image from the text.
-		CGImageRef image = CGBitmapContextCreateImage(context);
+		CGImageRef image = NULL;
 		
-		// Stroke width times 2, because it's a centered stroke. We want outer strokes.
-		CGContextSetLineWidth(context, self.strokeSize * 2.0f);
-		CGContextSetLineJoin(context, kCGLineJoinRound);
+		if (self.strokePosition == THLabelStrokePositionOutside) {
+			// Create an image from the text.
+			image = CGBitmapContextCreateImage(context);
+		}
+		
+		// Set stroke attributes.
+		switch (self.strokePosition) {
+			case THLabelStrokePositionCenter:
+				CGContextSetLineWidth(context, self.strokeSize);
+				CGContextSetLineJoin(context, kCGLineJoinRound);
+				break;
+				
+			default:
+				// Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
+				CGContextSetLineWidth(context, self.strokeSize * 2.0f);
+				CGContextSetLineJoin(context, kCGLineJoinRound);
+				break;
+		}
 		
 		// Set stroke color.
 		[self.strokeColor setStroke];
 		
+		if (self.strokePosition == THLabelStrokePositionInside) {
+			// Invert everything, because CG works with an inverted coordinate system.
+			CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+			CGContextScaleCTM(context, 1.0f, -1.0f);
+			
+			// Clip the current context to alpha mask.
+			CGContextClipToMask(context, contentRect, alphaMask);
+			
+			// Invert back to draw the stroke correctly.
+			CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+			CGContextScaleCTM(context, 1.0f, -1.0f);
+		}
+		
 		// Draw stroke.
 		[self drawTextInRect:textRect withFont:font];
 		
-		// Invert everything, because CG works with an inverted coordinate system.
-		CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
-		CGContextScaleCTM(context, 1.0f, -1.0f);
-		
-		// Draw the saved image over half of the stroke.
-		CGContextDrawImage(context, contentRect, image);
-		
-		// Clean up, because ARC doesn't handle CG.
-		CGImageRelease(image);
+		if (self.strokePosition == THLabelStrokePositionOutside) {
+			// Invert everything, because CG works with an inverted coordinate system.
+			CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+			CGContextScaleCTM(context, 1.0f, -1.0f);
+			
+			// Draw the saved image over half of the stroke.
+			CGContextDrawImage(context, contentRect, image);
+			
+			// Clean up, because ARC doesn't handle CG.
+			CGImageRelease(image);
+		}
 		
 		CGContextRestoreGState(context);
 	}
 	
 	// -------
-	// Step 4: Draw shadow.
+	// Step 5: Draw shadow.
 	// -------
 	
 	if (hasShadow) {
@@ -271,12 +317,16 @@ typedef enum {
 	}
 	
 	// -------
-	// Step 5: End drawing context and finally draw the text with all styles.
+	// Step 6: End drawing context and finally draw the text with all styles.
 	// -------
 	
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	[image drawInRect:rect];
+	
+	if (needsMask) {
+		CGImageRelease(alphaMask);
+	}
 }
 
 - (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {

@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.0
+//  Version 1.0.1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2012 tobiha.de. All rights reserved.
@@ -38,12 +38,19 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+	THLabelStrokePositionOutside,
+	THLabelStrokePositionCenter,
+	THLabelStrokePositionInside
+} THLabelStrokePosition;
+
 @interface THLabel : UILabel
 
 @property (nonatomic, assign) CGFloat shadowBlur;
 
 @property (nonatomic, assign) CGFloat strokeSize;
 @property (nonatomic, strong) UIColor *strokeColor;
+@property (nonatomic, assign) THLabelStrokePosition strokePosition;
 
 @property (nonatomic, strong) UIColor *gradientStartColor;
 @property (nonatomic, strong) UIColor *gradientEndColor;

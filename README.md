@@ -29,9 +29,10 @@ Additionally to UILabel's shadowColor and shadowOffset, you can also set a shado
 ``` objective-c
 	@property (nonatomic, assign) CGFloat strokeSize;
 	@property (nonatomic, strong) UIColor *strokeColor;
+	@property (nonatomic, assign) THLabelStrokePosition strokePosition;
 ```
 
-The stroke is always an outer stroke. Centered or inner stroke are not supported yet.
+You can set an outer, centered and inner stroke by setting the strokePosition property. Default value is THLabelStrokePositionOutside. Other options are THLabelStrokePositionCenter and THLabelStrokePositionInside.
 
 ``` objective-c
 	@property (nonatomic, strong) UIColor *gradientStartColor;
