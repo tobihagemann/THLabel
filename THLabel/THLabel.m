@@ -1,10 +1,10 @@
 //
 //  THLabel.m
 //
-//  Version 1.0.2
+//  Version 1.0.3
 //
 //  Created by Tobias Hagemann on 11/25/12.
-//  Copyright (c) 2012 tobiha.de. All rights reserved.
+//  Copyright (c) 2013 tobiha.de. All rights reserved.
 //
 //  Original source and inspiration from:
 //  FXLabel by Nick Lockwood,
@@ -154,7 +154,7 @@ typedef enum {
 		alphaMask = CGBitmapContextCreateImage(context);
 		
 		// Clear the content.
-		CGContextClearRect(context, contentRect);
+		CGContextClearRect(context, rect);
 		
 		CGContextRestoreGState(context);
 	}
@@ -186,14 +186,14 @@ typedef enum {
 		[self drawTextInRect:textRect withFont:font];
 	} else {
 		// Invert everything, because CG works with an inverted coordinate system.
-		CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+		CGContextTranslateCTM(context, 0.0f, rect.size.height);
 		CGContextScaleCTM(context, 1.0f, -1.0f);
 		
 		// Clip the current context to alpha mask.
-		CGContextClipToMask(context, contentRect, alphaMask);
+		CGContextClipToMask(context, rect, alphaMask);
 		
 		// Invert back to draw the gradient correctly.
-		CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+		CGContextTranslateCTM(context, 0.0f, rect.size.height);
 		CGContextScaleCTM(context, 1.0f, -1.0f);
 		
 		// Get gradient colors as CGColor.
@@ -245,14 +245,14 @@ typedef enum {
 		
 		if (self.strokePosition == THLabelStrokePositionInside) {
 			// Invert everything, because CG works with an inverted coordinate system.
-			CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+			CGContextTranslateCTM(context, 0.0f, rect.size.height);
 			CGContextScaleCTM(context, 1.0f, -1.0f);
 			
 			// Clip the current context to alpha mask.
-			CGContextClipToMask(context, contentRect, alphaMask);
+			CGContextClipToMask(context, rect, alphaMask);
 			
 			// Invert back to draw the stroke correctly.
-			CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+			CGContextTranslateCTM(context, 0.0f, rect.size.height);
 			CGContextScaleCTM(context, 1.0f, -1.0f);
 		}
 		
@@ -261,11 +261,11 @@ typedef enum {
 		
 		if (self.strokePosition == THLabelStrokePositionOutside) {
 			// Invert everything, because CG works with an inverted coordinate system.
-			CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+			CGContextTranslateCTM(context, 0.0f, rect.size.height);
 			CGContextScaleCTM(context, 1.0f, -1.0f);
 			
 			// Draw the saved image over half of the stroke.
-			CGContextDrawImage(context, contentRect, image);
+			CGContextDrawImage(context, rect, image);
 			
 			// Clean up, because ARC doesn't handle CG.
 			CGImageRelease(image);
@@ -285,17 +285,17 @@ typedef enum {
 		CGImageRef image = CGBitmapContextCreateImage(context);
 		
 		// Clear the content.
-		CGContextClearRect(context, contentRect);
+		CGContextClearRect(context, rect);
 		
 		// Invert everything, because CG works with an inverted coordinate system.
-		CGContextTranslateCTM(context, 0.0f, contentRect.size.height);
+		CGContextTranslateCTM(context, 0.0f, rect.size.height);
 		CGContextScaleCTM(context, 1.0f, -1.0f);
 		
 		// Set shadow attributes.
 		CGContextSetShadowWithColor(context, self.shadowOffset, self.shadowBlur, self.shadowColor.CGColor);
 		
 		// Draw the saved image, which throws off a shadow.
-		CGContextDrawImage(context, contentRect, image);
+		CGContextDrawImage(context, rect, image);
 		
 		// Clean up, because ARC doesn't handle CG.
 		CGImageRelease(image);

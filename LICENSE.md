@@ -1,8 +1,8 @@
 THLabel
 
-Version 1.0.2, December 23rd, 2012
+Version 1.0.3, January 21st, 2013
 
-Copyright (c) 2012 Tobias Hagemann, tobiha.de
+Copyright (c) 2013 Tobias Hagemann, tobiha.de
 
 This software is provided 'as-is', without any express or implied
 warranty.  In no event will the authors be held liable for any damages

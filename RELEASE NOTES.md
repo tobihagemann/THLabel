@@ -1,3 +1,7 @@
+Version 1.0.3
+
+- Fixed bug with text insets not applying correctly on stroke.
+
 Version 1.0.2
 
 - Fixed character spacing for centered stroke.
