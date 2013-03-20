@@ -360,10 +360,15 @@ typedef enum {
 	if ([self respondsToSelector:@selector(minimumScaleFactor)]) {
 		minFontSize = self.minimumScaleFactor ? self.minimumScaleFactor * *actualFontSize : *actualFontSize;
 	}
-#endif
 	else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		minFontSize = self.minimumFontSize ? : *actualFontSize;
+#pragma clang diagnostic pop
 	}
+#else
+  minFontSize = self.minimumFontSize ? : *actualFontSize;
+#endif
 	
 	// Calculate text rect size.
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
