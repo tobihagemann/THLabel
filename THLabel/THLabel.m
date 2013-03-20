@@ -358,13 +358,17 @@ typedef enum {
 	CGRect textRect = contentRect;
 	CGFloat minFontSize;
 	
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
 	if ([self respondsToSelector:@selector(minimumScaleFactor)]) {
 		minFontSize = self.minimumScaleFactor ? self.minimumScaleFactor * *actualFontSize : *actualFontSize;
 	} else {
+#endif
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
 		minFontSize = self.minimumFontSize ? : *actualFontSize;
 #endif
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
 	}
+#endif
 	
 	// Calculate text rect size.
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
