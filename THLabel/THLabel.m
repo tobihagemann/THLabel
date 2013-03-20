@@ -55,6 +55,7 @@ typedef enum {
 
 #pragma mark -
 #pragma mark Accessors and Mutators
+
 - (UIColor *)gradientStartColor {
 	return [self.gradientColors count] ? [self.gradientColors objectAtIndex:0] : nil;
 }
@@ -103,6 +104,7 @@ typedef enum {
 
 #pragma mark -
 #pragma mark Drawing
+
 - (void)drawRect:(CGRect)rect {
 	// Get everything ready for drawing.
 	CGRect contentRect = [self contentRectFromBounds:self.bounds withInsets:self.textInsets];
@@ -355,14 +357,13 @@ typedef enum {
 - (CGRect)textRectFromContentRect:(CGRect)contentRect actualFontSize:(CGFloat *)actualFontSize {
 	CGRect textRect = contentRect;
 	CGFloat minFontSize;
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
+	
 	if ([self respondsToSelector:@selector(minimumScaleFactor)]) {
 		minFontSize = self.minimumScaleFactor ? self.minimumScaleFactor * *actualFontSize : *actualFontSize;
-	}
-#endif
-	else {
+	} else {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
 		minFontSize = self.minimumFontSize ? : *actualFontSize;
+#endif
 	}
 	
 	// Calculate text rect size.
@@ -410,6 +411,7 @@ typedef enum {
 }
 
 #pragma mark -
+
 - (void)setDefaults {
 	self.gradientStartPoint = CGPointMake(0.5f, 0.2f);
 	self.gradientEndPoint = CGPointMake(0.5f, 0.8f);
