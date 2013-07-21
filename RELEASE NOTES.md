@@ -1,3 +1,7 @@
+Version 1.0.4
+
+- iOS 7 compatibility: Breaks former look & feel of strokes though as described in README.
+
 Version 1.0.3
 
 - Fixed bug with text insets not applying correctly on stroke.

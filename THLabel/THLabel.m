@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.0.3
+//  Version 1.0.4
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -52,6 +52,33 @@ typedef enum {
 @synthesize strokeSize = _strokeSize, strokeColor = _strokeColor, strokePosition = _strokePosition;
 @synthesize gradientStartColor = _gradientStartColor, gradientEndColor = _gradientEndColor, gradientColors = _gradientColors, gradientStartPoint = _gradientStartPoint, gradientEndPoint = _gradientEndPoint;
 @synthesize textInsets = _textInsets;
+
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+	
+	if (self) {
+		self.backgroundColor = [UIColor clearColor];
+		
+		[self setDefaults];
+	}
+	
+	return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+	self = [super initWithCoder:aDecoder];
+	
+	if (self) {
+		[self setDefaults];
+	}
+	
+	return self;
+}
+
+- (void)setDefaults {
+	self.gradientStartPoint = CGPointMake(0.5f, 0.2f);
+	self.gradientEndPoint = CGPointMake(0.5f, 0.8f);
+}
 
 #pragma mark -
 #pragma mark Accessors and Mutators
@@ -114,7 +141,7 @@ typedef enum {
 	
 	// Determine what has to be drawn.
 	BOOL hasShadow = self.shadowColor && ![self.shadowColor isEqual:[UIColor clearColor]] && (self.shadowBlur > 0.0f || !CGSizeEqualToSize(self.shadowOffset, CGSizeZero));
-	BOOL hasStroke = self.strokeSize > 0 && ![self.strokeColor isEqual:[UIColor clearColor]];
+	BOOL hasStroke = self.strokeSize > 0.0f && ![self.strokeColor isEqual:[UIColor clearColor]];
 	BOOL hasGradient = [self.gradientColors count] > 1;
 	BOOL needsMask = hasGradient || (hasStroke && self.strokePosition == THLabelStrokePositionInside);
 	
@@ -133,24 +160,30 @@ typedef enum {
 	if (needsMask) {
 		CGContextSaveGState(context);
 		
-		if (hasStroke) {
-			// Text needs invisible stroke for consistent character glyph widths.
-			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-			
-			// Set stroke attributes.
-			[self setStrokeAttributesInContext:context];
-			
-			// Set invisible stroke.
-			[[UIColor clearColor] setStroke];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+		if ([self.text respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+			NSDictionary *attrs = @{NSFontAttributeName: font,
+									NSParagraphStyleAttributeName: [self paragraphStyle],
+									NSForegroundColorAttributeName: [UIColor whiteColor]};
+			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
-			CGContextSetTextDrawingMode(context, kCGTextFill);
+#endif
+			if (hasStroke) {
+				// Text needs invisible stroke for consistent character glyph widths.
+				CGContextSetTextDrawingMode(context, kCGTextFillStroke);
+				CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
+				CGContextSetLineJoin(context, kCGLineJoinRound);
+				[[UIColor clearColor] setStroke];
+			} else {
+				CGContextSetTextDrawingMode(context, kCGTextFill);
+			}
+			
+			// Draw alpha mask.
+			[[UIColor whiteColor] setFill];
+			[self drawTextInRect:textRect withFont:font];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 		}
-		
-		// Set white color for alpha mask.
-		[[UIColor whiteColor] setFill];
-		
-		// Draw alpha mask.
-		[self drawTextInRect:textRect withFont:font];
+#endif
 		
 		// Save alpha mask.
 		alphaMask = CGBitmapContextCreateImage(context);
@@ -168,24 +201,30 @@ typedef enum {
 	CGContextSaveGState(context);
 	
 	if (!hasGradient) {
-		if (hasStroke) {
-			// Text needs invisible stroke for consistent character glyph widths.
-			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-			
-			// Set stroke attributes.
-			[self setStrokeAttributesInContext:context];
-			
-			// Set invisible stroke.
-			[[UIColor clearColor] setStroke];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+		if ([self.text respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+			NSDictionary *attrs = @{NSFontAttributeName: font,
+									NSParagraphStyleAttributeName: [self paragraphStyle],
+									NSForegroundColorAttributeName: self.textColor};
+			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
-			CGContextSetTextDrawingMode(context, kCGTextFill);
+#endif
+			if (hasStroke) {
+				// Text needs invisible stroke for consistent character glyph widths.
+				CGContextSetTextDrawingMode(context, kCGTextFillStroke);
+				CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
+				CGContextSetLineJoin(context, kCGLineJoinRound);
+				[[UIColor clearColor] setStroke];
+			} else {
+				CGContextSetTextDrawingMode(context, kCGTextFill);
+			}
+			
+			// Draw text.
+			[self.textColor setFill];
+			[self drawTextInRect:textRect withFont:font];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 		}
-		
-		// Set text fill color.
-		[self.textColor setFill];
-		
-		// Draw text.
-		[self drawTextInRect:textRect withFont:font];
+#endif
 	} else {
 		// Invert everything, because CG works with an inverted coordinate system.
 		CGContextTranslateCTM(context, 0.0f, rect.size.height);
@@ -200,7 +239,6 @@ typedef enum {
 		
 		// Get gradient colors as CGColor.
 		NSMutableArray *gradientColors = [NSMutableArray arrayWithCapacity:[self.gradientColors count]];
-		
 		for (UIColor *color in self.gradientColors) {
 			[gradientColors addObject:(__bridge id)color.CGColor];
 		}
@@ -216,13 +254,13 @@ typedef enum {
 		// Draw gradient.
 		CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
 		
-		// Clean up, because ARC doesn't handle CG.
+		// Clean up.
 		CGColorSpaceRelease(colorSpace);
 		CGGradientRelease(gradient);
 	}
 	
 	CGContextRestoreGState(context);
-	
+
 	// -------
 	// Step 4: Draw stroke.
 	// -------
@@ -237,15 +275,7 @@ typedef enum {
 		if (self.strokePosition == THLabelStrokePositionOutside) {
 			// Create an image from the text.
 			image = CGBitmapContextCreateImage(context);
-		}
-		
-		// Set stroke attributes.
-		[self setStrokeAttributesInContext:context];
-		
-		// Set stroke color.
-		[self.strokeColor setStroke];
-		
-		if (self.strokePosition == THLabelStrokePositionInside) {
+		} else if (self.strokePosition == THLabelStrokePositionInside) {
 			// Invert everything, because CG works with an inverted coordinate system.
 			CGContextTranslateCTM(context, 0.0f, rect.size.height);
 			CGContextScaleCTM(context, 1.0f, -1.0f);
@@ -258,8 +288,23 @@ typedef enum {
 			CGContextScaleCTM(context, 1.0f, -1.0f);
 		}
 		
-		// Draw stroke.
-		[self drawTextInRect:textRect withFont:font];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+		if ([self.text respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+			NSDictionary *attrs = @{NSFontAttributeName: font,
+									NSParagraphStyleAttributeName: [self paragraphStyle],
+									NSStrokeColorAttributeName: self.strokeColor,
+									NSStrokeWidthAttributeName: @([self strokeSizeDependentOnStrokePosition] * [[UIScreen mainScreen] scale])};
+			[self drawTextInRect:textRect withAttributes:attrs];
+		} else {
+#endif
+			// Draw stroke.
+			CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
+			CGContextSetLineJoin(context, kCGLineJoinRound);
+			[self.strokeColor setStroke];
+			[self drawTextInRect:textRect withFont:font];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+		}
+#endif
 		
 		if (self.strokePosition == THLabelStrokePositionOutside) {
 			// Invert everything, because CG works with an inverted coordinate system.
@@ -269,7 +314,7 @@ typedef enum {
 			// Draw the saved image over half of the stroke.
 			CGContextDrawImage(context, rect, image);
 			
-			// Clean up, because ARC doesn't handle CG.
+			// Clean up.
 			CGImageRelease(image);
 		}
 		
@@ -299,7 +344,7 @@ typedef enum {
 		// Draw the saved image, which throws off a shadow.
 		CGContextDrawImage(context, rect, image);
 		
-		// Clean up, because ARC doesn't handle CG.
+		// Clean up.
 		CGImageRelease(image);
 		
 		CGContextRestoreGState(context);
@@ -318,14 +363,27 @@ typedef enum {
 	}
 }
 
+- (void)drawTextInRect:(CGRect)rect withAttributes:(NSDictionary *)attrs {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
+		[self.text drawAtPoint:rect.origin withAttributes:attrs];
+	} else {
+		[self.text drawInRect:rect withAttributes:attrs];
+	}
+#endif
+}
+
 - (void)drawTextInRect:(CGRect)rect withFont:(UIFont *)font {
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1 && font.pointSize < self.font.pointSize) {
-		CGFloat fontSize = 0.0f;
-		[self.text drawAtPoint:rect.origin forWidth:rect.size.width withFont:self.font minFontSize:font.pointSize actualFontSize:&fontSize lineBreakMode:self.lineBreakMode baselineAdjustment:self.baselineAdjustment];
+		[self.text drawAtPoint:rect.origin forWidth:rect.size.width withFont:self.font minFontSize:font.pointSize actualFontSize:NULL lineBreakMode:self.lineBreakMode baselineAdjustment:self.baselineAdjustment];
 	} else {
 		[self.text drawInRect:rect withFont:font lineBreakMode:self.lineBreakMode alignment:self.textAlignment];
 	}
+#endif
 }
+
+#pragma mark -
 
 - (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {
 	CGRect contentRect = CGRectMake(0.0f, 0.0f, bounds.size.width, bounds.size.height);
@@ -337,21 +395,6 @@ typedef enum {
 	contentRect.size.height -= insets.top + insets.bottom;
 	
 	return contentRect;
-}
-
-- (void)setStrokeAttributesInContext:(CGContextRef)context {
-	switch (self.strokePosition) {
-		case THLabelStrokePositionCenter:
-			CGContextSetLineWidth(context, self.strokeSize);
-			CGContextSetLineJoin(context, kCGLineJoinRound);
-			break;
-			
-		default:
-			// Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
-			CGContextSetLineWidth(context, self.strokeSize * 2.0f);
-			CGContextSetLineJoin(context, kCGLineJoinRound);
-			break;
-	}
 }
 
 - (CGRect)textRectFromContentRect:(CGRect)contentRect actualFontSize:(CGFloat *)actualFontSize {
@@ -414,33 +457,28 @@ typedef enum {
 	return textRect;
 }
 
-#pragma mark -
-
-- (void)setDefaults {
-	self.gradientStartPoint = CGPointMake(0.5f, 0.2f);
-	self.gradientEndPoint = CGPointMake(0.5f, 0.8f);
-}
-
-- (id)initWithFrame:(CGRect)frame {
-	self = [super initWithFrame:frame];
-	
-	if (self) {
-		self.backgroundColor = [UIColor clearColor];
-		
-		[self setDefaults];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+- (NSMutableParagraphStyle *)paragraphStyle {
+	Class mutableParagraphStyleClass = NSClassFromString(@"NSMutableParagraphStyle");
+	if (mutableParagraphStyleClass != nil) {
+		NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+		paragraphStyle.alignment = self.textAlignment;
+		paragraphStyle.lineBreakMode = self.lineBreakMode;
+		return paragraphStyle;
 	}
-	
-	return self;
+	return nil;
 }
+#endif
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-	self = [super initWithCoder:aDecoder];
-	
-	if (self) {
-		[self setDefaults];
+- (CGFloat)strokeSizeDependentOnStrokePosition {
+	switch (self.strokePosition) {
+		case THLabelStrokePositionCenter:
+			return self.strokeSize;
+			
+		default:
+			// Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
+			return self.strokeSize * 2.0f;
 	}
-	
-	return self;
 }
 
 @end

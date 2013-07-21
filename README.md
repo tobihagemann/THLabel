@@ -18,6 +18,10 @@ You only need 2 files:
 
 You can create THLabels programmatically, or create them in Interface Builder by dragging an ordinary UILabel into your view and setting its class to THLabel.
 
+## iOS 7 Compatibility
+
+The core drawing methods used in THLabel are deprecated in iOS 7. The new methods aren't quite as comprehensive as the old ones, that's why the former look & feel of THLabel's strokes are broken with iOS 7. Strokes aren't rounded anymore and probably not pixel-perfect. I used a trick with invisible strokes for consistent character glyph widths, which is not possible anymore as far as I know. Don't hesitate to report any issues, you can also contact me by E-Mail or Twitter.
+
 ## Properties
 
 ``` objective-c
