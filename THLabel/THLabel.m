@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.0.5
+//  Version 1.0.6
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -145,6 +145,10 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGImageRef alphaMask = NULL;
 	
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.alignment = self.textAlignment;
+	paragraphStyle.lineBreakMode = self.lineBreakMode;
+	
 	// -------
 	// Step 2: Prepare mask.
 	// -------
@@ -154,7 +158,7 @@
 		
 		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
-									NSParagraphStyleAttributeName: [self paragraphStyle],
+									NSParagraphStyleAttributeName: paragraphStyle,
 									NSForegroundColorAttributeName: [UIColor whiteColor]};
 			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
@@ -191,7 +195,7 @@
 	if (!hasGradient) {
 		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
-									NSParagraphStyleAttributeName: [self paragraphStyle],
+									NSParagraphStyleAttributeName: paragraphStyle,
 									NSForegroundColorAttributeName: self.textColor};
 			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
@@ -274,7 +278,7 @@
 		
 		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
-									NSParagraphStyleAttributeName: [self paragraphStyle],
+									NSParagraphStyleAttributeName: paragraphStyle,
 									NSStrokeColorAttributeName: self.strokeColor,
 									NSStrokeWidthAttributeName: @([self strokeSizeDependentOnStrokePosition] * [[UIScreen mainScreen] scale])};
 			[self drawTextInRect:textRect withAttributes:attrs];
@@ -432,17 +436,6 @@
 	}
 	
 	return textRect;
-}
-
-- (NSMutableParagraphStyle *)paragraphStyle {
-	Class mutableParagraphStyleClass = NSClassFromString(@"NSMutableParagraphStyle");
-	if (mutableParagraphStyleClass != nil) {
-		NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-		paragraphStyle.alignment = self.textAlignment;
-		paragraphStyle.lineBreakMode = self.lineBreakMode;
-		return paragraphStyle;
-	}
-	return nil;
 }
 
 - (CGFloat)strokeSizeDependentOnStrokePosition {

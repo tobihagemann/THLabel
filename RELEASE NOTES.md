@@ -1,3 +1,7 @@
+Version 1.0.6
+
+- Minor refactorings, because iOS Base SDK 6.0 or higher is required.
+
 Version 1.0.5
 
 - Fixed usage of compiler macros and backward compatibility.
