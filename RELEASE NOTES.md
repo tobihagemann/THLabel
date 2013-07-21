@@ -1,3 +1,7 @@
+Version 1.0.5
+
+- Fixed usage of compiler macros and backward compatibility.
+
 Version 1.0.4
 
 - iOS 7 compatibility: Breaks former look & feel of strokes though as described in README.

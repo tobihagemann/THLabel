@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.0.4
+//  Version 1.0.5
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -37,14 +37,6 @@
 //
 
 #import "THLabel.h"
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_6_0
-typedef enum {
-	NSTextAlignmentLeft = UITextAlignmentLeft,
-	NSTextAlignmentCenter = UITextAlignmentCenter,
-	NSTextAlignmentRight = UITextAlignmentRight
-} NSTextAlignment;
-#endif
 
 @implementation THLabel
 
@@ -160,14 +152,12 @@ typedef enum {
 	if (needsMask) {
 		CGContextSaveGState(context);
 		
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
-		if ([self.text respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
 									NSParagraphStyleAttributeName: [self paragraphStyle],
 									NSForegroundColorAttributeName: [UIColor whiteColor]};
 			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
-#endif
 			if (hasStroke) {
 				// Text needs invisible stroke for consistent character glyph widths.
 				CGContextSetTextDrawingMode(context, kCGTextFillStroke);
@@ -181,9 +171,7 @@ typedef enum {
 			// Draw alpha mask.
 			[[UIColor whiteColor] setFill];
 			[self drawTextInRect:textRect withFont:font];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 		}
-#endif
 		
 		// Save alpha mask.
 		alphaMask = CGBitmapContextCreateImage(context);
@@ -201,14 +189,12 @@ typedef enum {
 	CGContextSaveGState(context);
 	
 	if (!hasGradient) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
-		if ([self.text respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
 									NSParagraphStyleAttributeName: [self paragraphStyle],
 									NSForegroundColorAttributeName: self.textColor};
 			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
-#endif
 			if (hasStroke) {
 				// Text needs invisible stroke for consistent character glyph widths.
 				CGContextSetTextDrawingMode(context, kCGTextFillStroke);
@@ -222,9 +208,7 @@ typedef enum {
 			// Draw text.
 			[self.textColor setFill];
 			[self drawTextInRect:textRect withFont:font];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 		}
-#endif
 	} else {
 		// Invert everything, because CG works with an inverted coordinate system.
 		CGContextTranslateCTM(context, 0.0f, rect.size.height);
@@ -288,23 +272,19 @@ typedef enum {
 			CGContextScaleCTM(context, 1.0f, -1.0f);
 		}
 		
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
-		if ([self.text respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
 									NSParagraphStyleAttributeName: [self paragraphStyle],
 									NSStrokeColorAttributeName: self.strokeColor,
 									NSStrokeWidthAttributeName: @([self strokeSizeDependentOnStrokePosition] * [[UIScreen mainScreen] scale])};
 			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
-#endif
 			// Draw stroke.
 			CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
 			CGContextSetLineJoin(context, kCGLineJoinRound);
 			[self.strokeColor setStroke];
 			[self drawTextInRect:textRect withFont:font];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 		}
-#endif
 		
 		if (self.strokePosition == THLabelStrokePositionOutside) {
 			// Invert everything, because CG works with an inverted coordinate system.
@@ -364,7 +344,7 @@ typedef enum {
 }
 
 - (void)drawTextInRect:(CGRect)rect withAttributes:(NSDictionary *)attrs {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+#ifdef __IPHONE_7_0
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
 		[self.text drawAtPoint:rect.origin withAttributes:attrs];
 	} else {
@@ -374,13 +354,14 @@ typedef enum {
 }
 
 - (void)drawTextInRect:(CGRect)rect withFont:(UIFont *)font {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1 && font.pointSize < self.font.pointSize) {
-		[self.text drawAtPoint:rect.origin forWidth:rect.size.width withFont:self.font minFontSize:font.pointSize actualFontSize:NULL lineBreakMode:self.lineBreakMode baselineAdjustment:self.baselineAdjustment];
+		CGFloat fontSize = 0.0f;
+		[self.text drawAtPoint:rect.origin forWidth:rect.size.width withFont:self.font minFontSize:font.pointSize actualFontSize:&fontSize lineBreakMode:self.lineBreakMode baselineAdjustment:self.baselineAdjustment];
 	} else {
 		[self.text drawInRect:rect withFont:font lineBreakMode:self.lineBreakMode alignment:self.textAlignment];
 	}
-#endif
+//#endif
 }
 
 #pragma mark -
@@ -401,17 +382,13 @@ typedef enum {
 	CGRect textRect = contentRect;
 	CGFloat minFontSize;
 	
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
 	if ([self respondsToSelector:@selector(minimumScaleFactor)]) {
 		minFontSize = self.minimumScaleFactor ? self.minimumScaleFactor * *actualFontSize : *actualFontSize;
 	} else {
-#endif
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
 		minFontSize = self.minimumFontSize ? : *actualFontSize;
 #endif
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_6_0
 	}
-#endif
 	
 	// Calculate text rect size.
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
@@ -457,7 +434,6 @@ typedef enum {
 	return textRect;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 - (NSMutableParagraphStyle *)paragraphStyle {
 	Class mutableParagraphStyleClass = NSClassFromString(@"NSMutableParagraphStyle");
 	if (mutableParagraphStyleClass != nil) {
@@ -468,7 +444,6 @@ typedef enum {
 	}
 	return nil;
 }
-#endif
 
 - (CGFloat)strokeSizeDependentOnStrokePosition {
 	switch (self.strokePosition) {
