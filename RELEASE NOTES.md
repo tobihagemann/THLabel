@@ -1,3 +1,7 @@
+Version 1.0.7
+
+- Fixes regarding iOS 7 beta 5. Only tested on Simulator though.
+
 Version 1.0.6
 
 - Minor refactorings, because iOS Base SDK 6.0 or higher is required.

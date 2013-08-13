@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.0.6
+//  Version 1.0.7
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -39,11 +39,6 @@
 #import "THLabel.h"
 
 @implementation THLabel
-
-@synthesize shadowBlur = _shadowBlur;
-@synthesize strokeSize = _strokeSize, strokeColor = _strokeColor, strokePosition = _strokePosition;
-@synthesize gradientStartColor = _gradientStartColor, gradientEndColor = _gradientEndColor, gradientColors = _gradientColors, gradientStartPoint = _gradientStartPoint, gradientEndPoint = _gradientEndPoint;
-@synthesize textInsets = _textInsets;
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
@@ -145,9 +140,7 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGImageRef alphaMask = NULL;
 	
-	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-	paragraphStyle.alignment = self.textAlignment;
-	paragraphStyle.lineBreakMode = self.lineBreakMode;
+	NSParagraphStyle *paragraphStyle = [self paragraphStyle];
 	
 	// -------
 	// Step 2: Prepare mask.
@@ -156,6 +149,7 @@
 	if (needsMask) {
 		CGContextSaveGState(context);
 		
+		// Draw alpha mask.
 		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
 									NSParagraphStyleAttributeName: paragraphStyle,
@@ -172,7 +166,6 @@
 				CGContextSetTextDrawingMode(context, kCGTextFill);
 			}
 			
-			// Draw alpha mask.
 			[[UIColor whiteColor] setFill];
 			[self drawTextInRect:textRect withFont:font];
 		}
@@ -193,6 +186,7 @@
 	CGContextSaveGState(context);
 	
 	if (!hasGradient) {
+		// Draw text.
 		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
 									NSParagraphStyleAttributeName: paragraphStyle,
@@ -209,7 +203,6 @@
 				CGContextSetTextDrawingMode(context, kCGTextFill);
 			}
 			
-			// Draw text.
 			[self.textColor setFill];
 			[self drawTextInRect:textRect withFont:font];
 		}
@@ -276,14 +269,14 @@
 			CGContextScaleCTM(context, 1.0f, -1.0f);
 		}
 		
+		// Draw stroke.
 		if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
 			NSDictionary *attrs = @{NSFontAttributeName: font,
 									NSParagraphStyleAttributeName: paragraphStyle,
 									NSStrokeColorAttributeName: self.strokeColor,
-									NSStrokeWidthAttributeName: @([self strokeSizeDependentOnStrokePosition] * [[UIScreen mainScreen] scale])};
+									NSStrokeWidthAttributeName: @([self strokeSizeDependentOnStrokePosition] * [UIScreen mainScreen].scale)};
 			[self drawTextInRect:textRect withAttributes:attrs];
 		} else {
-			// Draw stroke.
 			CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
 			CGContextSetLineJoin(context, kCGLineJoinRound);
 			[self.strokeColor setStroke];
@@ -352,6 +345,30 @@
 	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
 		[self.text drawAtPoint:rect.origin withAttributes:attrs];
 	} else {
+		BOOL isDrawingStroke = self.strokeSize > 0.0f && ![self.strokeColor isEqual:[UIColor clearColor]] && attrs[NSStrokeWidthAttributeName];
+		if (isDrawingStroke) {
+			// Stroke needs a little y-offset, it looks weird without.
+			rect.origin.y += 0.5f;
+			
+			// Stroke needs to be drawn in a bigger rect to ensure line break mode is applied the same way.
+			switch (self.textAlignment) {
+				case NSTextAlignmentCenter:
+					// Expand to the left and right side.
+					rect = CGRectInset(rect, -self.strokeSize, 0.0f);
+					break;
+					
+				case NSTextAlignmentRight:
+					// Expand to the left.
+					rect = UIEdgeInsetsInsetRect(rect, UIEdgeInsetsMake(0.0f, -self.strokeSize, 0.0f, 0.0f));
+					break;
+					
+				default:
+					// Expand to the right.
+					rect = UIEdgeInsetsInsetRect(rect, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, -self.strokeSize));
+					break;
+			}
+		}
+		
 		[self.text drawInRect:rect withAttributes:attrs];
 	}
 #endif
@@ -382,6 +399,13 @@
 	return contentRect;
 }
 
+- (NSParagraphStyle *)paragraphStyle {
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.alignment = self.textAlignment;
+	paragraphStyle.lineBreakMode = self.lineBreakMode;
+	return paragraphStyle;
+}
+
 - (CGRect)textRectFromContentRect:(CGRect)contentRect actualFontSize:(CGFloat *)actualFontSize {
 	CGRect textRect = contentRect;
 	CGFloat minFontSize;
@@ -395,10 +419,20 @@
 	}
 	
 	// Calculate text rect size.
-	if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
-		textRect.size = [self.text sizeWithFont:self.font minFontSize:minFontSize actualFontSize:actualFontSize forWidth:contentRect.size.width lineBreakMode:self.lineBreakMode];
+	if ([self.text respondsToSelector:@selector(sizeWithAttributes:)]) {
+#ifdef __IPHONE_7_0
+		NSDictionary *attrs = @{NSFontAttributeName: self.font,
+								NSParagraphStyleAttributeName: [self paragraphStyle]};
+		textRect = [self.text boundingRectWithSize:contentRect.size options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil];
+#endif
 	} else {
-		textRect.size = [self.text sizeWithFont:self.font constrainedToSize:contentRect.size lineBreakMode:self.lineBreakMode];
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
+		if (self.adjustsFontSizeToFitWidth && self.numberOfLines == 1) {
+			textRect.size = [self.text sizeWithFont:self.font minFontSize:minFontSize actualFontSize:actualFontSize forWidth:contentRect.size.width lineBreakMode:self.lineBreakMode];
+		} else {
+			textRect.size = [self.text sizeWithFont:self.font constrainedToSize:contentRect.size lineBreakMode:self.lineBreakMode];
+		}
+//#endif
 	}
 	
 	// Horizontal alignment.
