@@ -327,22 +327,21 @@
 	CFRelease(stringRef);
 	CFRelease(attributes);
 	
-	// Set up frame setter.
+	// Set up frame.
 	CTFramesetterRef framesetterRef = CTFramesetterCreateWithAttributedString(attributedStringRef);
 	CGRect contentRect = [self contentRectFromBounds:self.bounds withInsets:self.textInsets];
 	*textRect = [self textRectFromContentRect:contentRect framesetterRef:framesetterRef];
 	CGMutablePathRef pathRef = CGPathCreateMutable();
 	CGPathAddRect(pathRef, NULL, *textRect);
 	
-	// Set up frame.
 	CTFrameRef frameRef = CTFramesetterCreateFrame(framesetterRef, CFRangeMake(0, [self.text length]), pathRef, NULL);
 	CFRelease(framesetterRef);
-	CFRelease(pathRef);
+	CGPathRelease(pathRef);
 	return frameRef;
 }
 
 - (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {
-	CGRect contentRect = CGRectMake(0.0f, 0.0f, bounds.size.width, bounds.size.height);
+	CGRect contentRect = CGRectMake(0.0, 0.0, bounds.size.width, bounds.size.height);
 	
 	// Apply insets.
 	contentRect.origin.x += insets.left;
