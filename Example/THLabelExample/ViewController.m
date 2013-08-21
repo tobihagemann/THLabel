@@ -10,15 +10,15 @@
 #import "THLabel.h"
 
 #define kShadowColor1		[UIColor blackColor]
-#define kShadowColor2		[UIColor colorWithWhite:0.0f alpha:0.75f]
-#define kShadowOffset		CGSizeMake(0.0f, UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 4.0f : 2.0f)
-#define kShadowBlur			(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 10.0f : 5.0f)
+#define kShadowColor2		[UIColor colorWithWhite:0.0 alpha:0.75]
+#define kShadowOffset		CGSizeMake(0.0, UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 4.0 : 2.0)
+#define kShadowBlur			(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 10.0 : 5.0)
 
 #define kStrokeColor		[UIColor blackColor]
-#define kStrokeSize			(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 6.0f : 3.0f)
+#define kStrokeSize			(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 6.0 : 3.0)
 
-#define kGradientStartColor	[UIColor colorWithRed:255.0f / 255.0f green:193.0f / 255.0f blue:127.0f / 255.0f alpha:1.0f]
-#define kGradientEndColor	[UIColor colorWithRed:255.0f / 255.0f green:163.0f / 255.0f blue:64.0f / 255.0f alpha:1.0f]
+#define kGradientStartColor	[UIColor colorWithRed:255.0 / 255.0 green:193.0 / 255.0 blue:127.0 / 255.0 alpha:1.0]
+#define kGradientEndColor	[UIColor colorWithRed:255.0 / 255.0 green:163.0 / 255.0 blue:64.0 / 255.0 alpha:1.0]
 
 @interface ViewController ()
 @property (nonatomic, weak) IBOutlet THLabel *label1;

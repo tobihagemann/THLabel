@@ -1,3 +1,8 @@
+Version 1.1
+
+- Complete overhaul using Core Text. This means `CoreText.framework` is now required. Don't forget to add it to your project, if you're updating.
+- This also fixes all problems with iOS 7 and should still be compatible with iOS 4 (untested yet, iOS 5 works).
+
 Version 1.0.7
 
 - Fixes regarding iOS 7 beta 5. Only tested on Simulator though.

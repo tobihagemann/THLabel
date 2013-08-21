@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7428883717C557170011060B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7428883617C557170011060B /* CoreText.framework */; };
 		74338E6216830723001B12C9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74338E6116830723001B12C9 /* UIKit.framework */; };
 		74338E6416830723001B12C9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74338E6316830723001B12C9 /* Foundation.framework */; };
 		74338E6616830723001B12C9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74338E6516830723001B12C9 /* CoreGraphics.framework */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7428883617C557170011060B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		74338E5D16830723001B12C9 /* THLabelExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = THLabelExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74338E6116830723001B12C9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		74338E6316830723001B12C9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -52,6 +54,7 @@
 				74338E6216830723001B12C9 /* UIKit.framework in Frameworks */,
 				74338E6416830723001B12C9 /* Foundation.framework in Frameworks */,
 				74338E6616830723001B12C9 /* CoreGraphics.framework in Frameworks */,
+				7428883717C557170011060B /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +85,7 @@
 				74338E6116830723001B12C9 /* UIKit.framework */,
 				74338E6316830723001B12C9 /* Foundation.framework */,
 				74338E6516830723001B12C9 /* CoreGraphics.framework */,
+				7428883617C557170011060B /* CoreText.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -250,7 +254,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -272,7 +276,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

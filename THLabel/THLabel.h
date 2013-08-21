@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.0.7
+//  Version 1.1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -11,6 +11,10 @@
 //  https://github.com/nicklockwood/FXLabel
 //  KSLabel by Kai Schweiger,
 //  https://github.com/vigorouscoding/KSLabel
+//
+//  Big thanks to Jason Miller for showing me sample code of his implementation
+//  using Core Text! It inspired me to dig deeper and move away from drawing
+//  with NSAttributedString on iOS 7, which caused a lot of problems.
 //
 //  Distributed under the permissive zlib license
 //  Get the latest version from here:

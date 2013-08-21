@@ -7,21 +7,18 @@ THLabel is a subclass of UILabel, which additionally allows shadow blur, stroke 
 ## Requirements
 
 * iOS 4.0 or higher
-* Base SDK: iOS 6.0 or higher
 * ARC enabled
 
 ## Installation
 
-You only need 2 files:
+Add `CoreText.framework` to your *Link Binary with Libraries* list.
+
+And drag these files into your project:
 
 - `THLabel.h`
 - `THLabel.m`
 
 You can create THLabels programmatically, or create them in Interface Builder by dragging an ordinary UILabel into your view and setting its class to THLabel.
-
-## iOS 7 Compatibility
-
-The core drawing methods used in THLabel are deprecated in iOS 7. The new methods aren't quite as comprehensive as the old ones, that's why the former look & feel of THLabel's strokes are broken with iOS 7. Strokes aren't rounded anymore and probably not pixel-perfect. I used a trick with invisible strokes for consistent character glyph widths, which is not possible anymore as far as I know. Don't hesitate to report any issues, you can also contact me by E-Mail or Twitter.
 
 ## Properties
 
@@ -64,7 +61,7 @@ Effects like stroke and shadow can't be drawn outside of the bounds of the label
 
 THLabel respects (unlike UILabel) the contentMode property, which is used for vertical alignment. The textAlignment still has the higher priority, when it comes to horizontal alignment.
 
-THLabels are slower to draw than UILabels, because it is heavily using Core Graphics, so be aware of that.
+THLabels are slower to draw than UILabels, so be aware of that.
 
 ## Credits
 
@@ -72,6 +69,8 @@ Original source and inspiration from:
 
 - FXLabel by Nick Lockwood, https://github.com/nicklockwood/FXLabel
 - KSLabel by Kai Schweiger, https://github.com/vigorouscoding/KSLabel
+
+Big thanks to Jason Miller for showing me sample code of his implementation using Core Text! It inspired me to dig deeper and move away from drawing with NSAttributedString on iOS 7, which caused a lot of problems.
 
 ## License
 
