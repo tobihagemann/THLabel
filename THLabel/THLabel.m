@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1
+//  Version 1.1.1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -119,6 +119,11 @@
 #pragma mark Drawing
 
 - (void)drawRect:(CGRect)rect {
+	// Don't draw anything, if there is no text.
+	if (!self.text) {
+		return;
+	}
+	
 	// -------
 	// Determine what has to be drawn.
 	// -------
@@ -324,7 +329,6 @@
 	
 	CFStringRef stringRef = (__bridge CFStringRef)self.text;
 	CFAttributedStringRef attributedStringRef = CFAttributedStringCreate(kCFAllocatorDefault, stringRef, attributes);
-	CFRelease(stringRef);
 	CFRelease(attributes);
 	
 	// Set up frame.

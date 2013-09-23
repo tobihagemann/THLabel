@@ -1,3 +1,8 @@
+Version 1.1.1
+
+- Fixed crash, which was caused by a premature release of a CFStringRef.
+- Fixed crash, when text is nil.
+
 Version 1.1
 
 - Complete overhaul using Core Text. This means `CoreText.framework` is now required. Don't forget to add it to your project, if you're updating.
