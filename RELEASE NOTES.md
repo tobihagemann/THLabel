@@ -1,3 +1,7 @@
+Version 1.1.2
+
+- Fixed memory related crash.
+
 Version 1.1.1
 
 - Fixed crash, which was caused by a premature release of a CFStringRef.

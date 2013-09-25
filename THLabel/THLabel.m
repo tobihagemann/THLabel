@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.1
+//  Version 1.1.2
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -120,7 +120,7 @@
 
 - (void)drawRect:(CGRect)rect {
 	// Don't draw anything, if there is no text.
-	if (!self.text) {
+	if (!self.text || [self.text isEqualToString:@""]) {
 		return;
 	}
 	
@@ -316,7 +316,7 @@
 	CTParagraphStyleSetting paragraphStyleSettings[] = {
 		{kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},
 		{kCTParagraphStyleSpecifierLineBreakMode, sizeof(CTLineBreakMode), &lineBreakMode}
-    };
+	};
 	CTParagraphStyleRef paragraphStyleRef = CTParagraphStyleCreate(paragraphStyleSettings, 2);
 	CFRelease(paragraphStyleSettings);
 	
