@@ -317,7 +317,7 @@
 		{kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},
 		{kCTParagraphStyleSpecifierLineBreakMode, sizeof(CTLineBreakMode), &lineBreakMode}
     };
-	CTParagraphStyleRef paragraphStyleRef = CTParagraphStyleCreate(paragraphStyleSettings, sizeof(paragraphStyleSettings));
+	CTParagraphStyleRef paragraphStyleRef = CTParagraphStyleCreate(paragraphStyleSettings, 2);
 	CFRelease(paragraphStyleSettings);
 	
 	// Set up attributed string.
