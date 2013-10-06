@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.2
+//  Version 1.1.3
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -39,6 +39,13 @@
 //
 //  3. This notice may not be removed or altered from any source distribution.
 //
+
+
+#import <Availability.h>
+#if !__has_feature(objc_arc)
+#error This class requires automatic reference counting.
+#endif
+
 
 #import <CoreText/CoreText.h>
 
@@ -256,10 +263,10 @@
 		if (self.strokePosition == THLabelStrokePositionOutside) {
 			// Draw the saved image over half of the stroke.
 			CGContextDrawImage(context, rect, image);
-			
-			// Clean up.
-			CGImageRelease(image);
 		}
+		
+		// Clean up.
+		CGImageRelease(image);
 		
 		CGContextRestoreGState(context);
 	}
@@ -333,6 +340,8 @@
 	
 	// Set up frame.
 	CTFramesetterRef framesetterRef = CTFramesetterCreateWithAttributedString(attributedStringRef);
+	CFRelease(attributedStringRef);
+	
 	CGRect contentRect = [self contentRectFromBounds:self.bounds withInsets:self.textInsets];
 	*textRect = [self textRectFromContentRect:contentRect framesetterRef:framesetterRef];
 	CGMutablePathRef pathRef = CGPathCreateMutable();
@@ -358,7 +367,7 @@
 
 - (CGRect)textRectFromContentRect:(CGRect)contentRect framesetterRef:(CTFramesetterRef)framesetterRef {
 	CGRect textRect = contentRect;
-	textRect.size = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, self.text.length), NULL, contentRect.size, NULL);
+	textRect.size = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, [self.text length]), NULL, contentRect.size, NULL);
 	
 	// Horizontal alignment.
 	switch (self.textAlignment) {

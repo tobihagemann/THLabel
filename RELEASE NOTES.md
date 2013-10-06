@@ -1,3 +1,7 @@
+Version 1.1.3
+
+- Fixed potential memory leaks.
+
 Version 1.1.2
 
 - Fixed memory related crash.
