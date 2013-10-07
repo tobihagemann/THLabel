@@ -6,7 +6,7 @@ THLabel is a subclass of UILabel, which additionally allows shadow blur, stroke 
 
 ## Requirements
 
-* iOS 4.0 or higher
+* iOS 4.0 or higher (below iOS 5.0 is untested though)
 * ARC enabled
 
 ## Installation

@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.3
+//  Version 1.1.4
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -318,7 +318,7 @@
 - (CTFrameRef)setupFrameForDrawingOutTextRect:(CGRect *)textRect {
 	// Set up font.
 	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
-	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment(self.textAlignment);
+	CTTextAlignment alignment = self.textAlignment;
 	CTLineBreakMode lineBreakMode = self.lineBreakMode;
 	CTParagraphStyleSetting paragraphStyleSettings[] = {
 		{kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},

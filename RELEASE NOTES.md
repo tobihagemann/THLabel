@@ -1,3 +1,7 @@
+Version 1.1.4
+
+- iOS 5 compatibilty restored. iOS 4 should also be compatible, but it's untested!
+
 Version 1.1.3
 
 - Fixed potential memory leaks.
