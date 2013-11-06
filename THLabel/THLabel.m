@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.4
+//  Version 1.1.5
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -318,7 +318,7 @@
 - (CTFrameRef)setupFrameForDrawingOutTextRect:(CGRect *)textRect {
 	// Set up font.
 	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
-	CTTextAlignment alignment = self.textAlignment;
+	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment ? NSTextAlignmentToCTTextAlignment(self.textAlignment) : [self CTTextAlignmentFromNSTextAlignment:self.textAlignment];
 	CTLineBreakMode lineBreakMode = self.lineBreakMode;
 	CTParagraphStyleSetting paragraphStyleSettings[] = {
 		{kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},
@@ -351,6 +351,24 @@
 	CFRelease(framesetterRef);
 	CGPathRelease(pathRef);
 	return frameRef;
+}
+
+// Workaround for < iOS 6.
+- (CTTextAlignment)CTTextAlignmentFromNSTextAlignment:(NSTextAlignment)nsTextAlignment {
+	switch (nsTextAlignment) {
+		case NSTextAlignmentLeft:
+			return kCTTextAlignmentLeft;
+		case NSTextAlignmentCenter:
+			return kCTTextAlignmentCenter;
+		case NSTextAlignmentRight:
+			return kCTTextAlignmentRight;
+		case NSTextAlignmentJustified:
+			return kCTTextAlignmentJustified;
+		case NSTextAlignmentNatural:
+			return kCTTextAlignmentNatural;
+		default:
+			return 0;
+	}
 }
 
 - (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {

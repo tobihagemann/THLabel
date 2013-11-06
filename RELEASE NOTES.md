@@ -1,3 +1,7 @@
+Version 1.1.5
+
+- Fixed text alignment for multi-line texts.
+
 Version 1.1.4
 
 - iOS 5 compatibilty restored. iOS 4 should also be compatible, but it's untested!
