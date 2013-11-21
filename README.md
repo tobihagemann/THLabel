@@ -18,7 +18,7 @@ And drag these files into your project:
 - `THLabel.h`
 - `THLabel.m`
 
-You can create THLabels programmatically, or create them in Interface Builder by dragging an ordinary UILabel into your view and setting its class to THLabel.
+You can create THLabels programmatically, or create them in Interface Builder by dragging an ordinary UILabel into your view and setting its *Custom Class* to THLabel.
 
 ## Properties
 

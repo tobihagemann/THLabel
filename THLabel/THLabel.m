@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.5
+//  Version 1.1.6
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -319,13 +319,12 @@
 	// Set up font.
 	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
 	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment ? NSTextAlignmentToCTTextAlignment(self.textAlignment) : [self CTTextAlignmentFromNSTextAlignment:self.textAlignment];
-	CTLineBreakMode lineBreakMode = self.lineBreakMode;
+	CTLineBreakMode lineBreakMode = (CTLineBreakMode)self.lineBreakMode;
 	CTParagraphStyleSetting paragraphStyleSettings[] = {
 		{kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},
 		{kCTParagraphStyleSpecifierLineBreakMode, sizeof(CTLineBreakMode), &lineBreakMode}
 	};
 	CTParagraphStyleRef paragraphStyleRef = CTParagraphStyleCreate(paragraphStyleSettings, 2);
-	CFRelease(paragraphStyleSettings);
 	
 	// Set up attributed string.
 	CFStringRef keys[] = {kCTFontAttributeName, kCTParagraphStyleAttributeName, kCTForegroundColorAttributeName};

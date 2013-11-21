@@ -1,3 +1,7 @@
+Version 1.1.6
+
+- Fixed memory related crash.
+
 Version 1.1.5
 
 - Fixed text alignment for multi-line texts.
