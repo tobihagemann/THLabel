@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.6
+//  Version 1.1.7
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -383,8 +383,11 @@
 }
 
 - (CGRect)textRectFromContentRect:(CGRect)contentRect framesetterRef:(CTFramesetterRef)framesetterRef {
-	CGRect textRect = contentRect;
-	textRect.size = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, [self.text length]), NULL, contentRect.size, NULL);
+	CGSize suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, [self.text length]), NULL, contentRect.size, NULL);
+	if (CGSizeEqualToSize(suggestedTextRectSize, CGSizeZero)) {
+		suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, [self.text length]), NULL, CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX), NULL);
+	}
+	CGRect textRect = CGRectMake(0.0, 0.0, suggestedTextRectSize.width, suggestedTextRectSize.height);
 	
 	// Horizontal alignment.
 	switch (self.textAlignment) {

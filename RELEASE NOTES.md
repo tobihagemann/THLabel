@@ -1,3 +1,7 @@
+Version 1.1.7
+
+- Fixed drawing, when frame is too small.
+
 Version 1.1.6
 
 - Fixed memory related crash.
