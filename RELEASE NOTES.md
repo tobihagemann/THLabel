@@ -1,3 +1,7 @@
+Version 1.2
+
+- Added innerShadowBlur, innerShadowOffset and innerShadowColor properties.
+
 Version 1.1.7
 
 - Fixed drawing, when frame is too small.

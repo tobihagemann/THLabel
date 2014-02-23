@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.1.7
+//  Version 1.2
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -136,9 +136,10 @@
 	// -------
 	
 	BOOL hasShadow = self.shadowColor && ![self.shadowColor isEqual:[UIColor clearColor]] && (self.shadowBlur > 0.0 || !CGSizeEqualToSize(self.shadowOffset, CGSizeZero));
+	BOOL hasInnerShadow = self.innerShadowColor && ![self.innerShadowColor isEqual:[UIColor clearColor]] && (self.innerShadowBlur > 0.0 || !CGSizeEqualToSize(self.innerShadowOffset, CGSizeZero));
 	BOOL hasStroke = self.strokeSize > 0.0 && ![self.strokeColor isEqual:[UIColor clearColor]];
 	BOOL hasGradient = [self.gradientColors count] > 1;
-	BOOL needsMask = hasGradient || (hasStroke && self.strokePosition == THLabelStrokePositionInside);
+	BOOL needsMask = hasGradient || (hasStroke && self.strokePosition == THLabelStrokePositionInside) || hasInnerShadow;
 	
 	// -------
 	// Step 1: Begin new drawing context, where we will apply all our styles.
@@ -234,9 +235,44 @@
 	}
 	
 	CGContextRestoreGState(context);
+	
+	// -------
+	// Step 4: Draw inner shadow.
+	// -------
+	
+	if (hasInnerShadow) {
+		CGContextSaveGState(context);
+		
+		// Generate inverse mask.
+		UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
+		CGContextRef shadowContext = UIGraphicsGetCurrentContext();
+		[[UIColor whiteColor] setFill];
+		UIRectFill(rect);
+		CGContextClipToMask(shadowContext, rect, alphaMask);
+		CGContextClearRect(shadowContext, rect);
+		CGImageRef shadowImage = CGBitmapContextCreateImage(shadowContext);
+		UIGraphicsEndImageContext();
+		
+		// Clip the current context to alpha mask.
+		CGContextClipToMask(context, rect, alphaMask);
+		
+		// Invert to draw the inner shadow correctly.
+		CGContextTranslateCTM(context, 0.0, CGRectGetHeight(rect));
+		CGContextScaleCTM(context, 1.0, -1.0);
+
+		// Draw inner shadow.
+		CGContextSetShadowWithColor(context, self.innerShadowOffset, self.innerShadowBlur, self.innerShadowColor.CGColor);
+		CGContextSetBlendMode(context, kCGBlendModeDarken);
+		CGContextDrawImage(context, rect, shadowImage);
+		
+		// Clean up.
+		CGImageRelease(shadowImage);
+		
+		CGContextRestoreGState(context);
+	}
 
 	// -------
-	// Step 4: Draw stroke.
+	// Step 5: Draw stroke.
 	// -------
 	
 	if (hasStroke) {
@@ -272,7 +308,7 @@
 	}
 	
 	// -------
-	// Step 5: Draw shadow.
+	// Step 6: Draw shadow.
 	// -------
 	
 	if (hasShadow) {
@@ -297,7 +333,7 @@
 	}
 	
 	// -------
-	// Step 6: End drawing context and finally draw the text with all styles.
+	// Step 7: End drawing context and finally draw the text with all styles.
 	// -------
 	
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();

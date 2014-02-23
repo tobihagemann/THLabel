@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.1.7
+//  Version 1.2
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2013 tobiha.de. All rights reserved.
@@ -51,6 +51,10 @@ typedef enum {
 @interface THLabel : UILabel
 
 @property (nonatomic, assign) CGFloat shadowBlur;
+
+@property (nonatomic, assign) CGFloat innerShadowBlur;
+@property (nonatomic, assign) CGSize innerShadowOffset;
+@property (nonatomic, strong) UIColor *innerShadowColor;
 
 @property (nonatomic, assign) CGFloat strokeSize;
 @property (nonatomic, strong) UIColor *strokeColor;

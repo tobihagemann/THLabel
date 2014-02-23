@@ -1,6 +1,6 @@
 # THLabel
 
-THLabel is a subclass of UILabel, which additionally allows shadow blur, stroke text and fill gradient.
+THLabel is a subclass of UILabel, which additionally allows shadow blur, inner shadow, stroke text and fill gradient.
 
 ![THLabel screenshot](https://raw.github.com/MuscleRumble/THLabel/master/screenshot.png "THLabel screenshot")
 
@@ -26,7 +26,15 @@ You can create THLabels programmatically, or create them in Interface Builder by
 	@property (nonatomic, assign) CGFloat shadowBlur;
 ```
 
-Additionally to UILabel's shadowColor and shadowOffset, you can also set a shadow blur to soften the shadow.
+Additionally to UILabel's shadowColor and shadowOffset, you can set a shadow blur to soften the shadow.
+
+``` objective-c
+	@property (nonatomic, assign) CGFloat innerShadowBlur;
+	@property (nonatomic, assign) CGSize innerShadowOffset;
+	@property (nonatomic, strong) UIColor *innerShadowColor;
+```
+
+The inner shadow has similar properties as UILabel's shadow, once again additionally with a shadow blur. If an inner shadow and a stroke are overlapping, it will appear beneath the stroke.
 
 ``` objective-c
 	@property (nonatomic, assign) CGFloat strokeSize;
