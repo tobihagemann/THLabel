@@ -26,7 +26,7 @@ You can create THLabels programmatically, or create them in Interface Builder by
 	@property (nonatomic, assign) CGFloat shadowBlur;
 ```
 
-Additionally to UILabel's shadowColor and shadowOffset, you can set a shadow blur to soften the shadow.
+Additionally to UILabel's `shadowColor` and `shadowOffset`, you can set a shadow blur to soften the shadow.
 
 ``` objective-c
 	@property (nonatomic, assign) CGFloat innerShadowBlur;
@@ -42,7 +42,7 @@ The inner shadow has similar properties as UILabel's shadow, once again addition
 	@property (nonatomic, assign) THLabelStrokePosition strokePosition;
 ```
 
-You can set an outer, centered or inner stroke by setting the strokePosition property. Default value is THLabelStrokePositionOutside. Other options are THLabelStrokePositionCenter and THLabelStrokePositionInside.
+You can set an outer, centered or inner stroke by setting the `strokePosition` property. Default value is `THLabelStrokePositionOutside`. Other options are `THLabelStrokePositionCenter` and `THLabelStrokePositionInside`.
 
 ``` objective-c
 	@property (nonatomic, strong) UIColor *gradientStartColor;
@@ -50,14 +50,20 @@ You can set an outer, centered or inner stroke by setting the strokePosition pro
 	@property (nonatomic, copy) NSArray *gradientColors;
 ```
 
-The gradient can consist of multiple colors, which have to be saved as UIColor objects in the gradientColors array. For more convenience, gradientStartColor and gradientEndColor will fill up the array accordingly.
+The gradient can consist of multiple colors, which have to be saved as UIColor objects in the `gradientColors` array. For more convenience, `gradientStartColor` and `gradientEndColor` will fill up the array accordingly.
 
 ``` objective-c
 	@property (nonatomic, assign) CGPoint gradientStartPoint;
 	@property (nonatomic, assign) CGPoint gradientEndPoint;
 ```
 
-The starting and ending points of the gradient are in the range 0 to 1, where (0, 0) is the top-left and (1, 1) the bottom-right of the text. The default value for gradientStartPoint is (0.5, 0.2) and for gradientEndPoint it is (0.5, 0.8).
+The starting and ending points of the gradient are in the range 0 to 1, where (0, 0) is the top-left and (1, 1) the bottom-right of the text. The default value for `gradientStartPoint` is (0.5, 0.2) and for `gradientEndPoint` it is (0.5, 0.8).
+
+``` objective-c
+	@property (nonatomic, assign) THLabelFadeTruncatingMode fadeTruncatingMode;
+```
+
+You can fade in/out your label by setting the `fadeTruncatingMode` property. Default value is `THLabelFadeTruncatingModeNone`. The options are `THLabelFadeTruncatingModeTail`, `THLabelFadeTruncatingModeHead` and `THLabelFadeTruncatingModeHeadAndTail`.
 
 ``` objective-c
 	@property (nonatomic, assign) UIEdgeInsets textInsets;
@@ -67,7 +73,7 @@ Effects like stroke and shadow can't be drawn outside of the bounds of the label
 
 ## Notes
 
-THLabel respects (unlike UILabel) the contentMode property, which is used for vertical alignment. The textAlignment still has the higher priority, when it comes to horizontal alignment.
+THLabel respects (unlike UILabel) the `contentMode` property, which is used for vertical alignment. The `textAlignment` still has the higher priority, when it comes to horizontal alignment.
 
 THLabels are slower to draw than UILabels, so be aware of that.
 
@@ -77,6 +83,7 @@ Original source and inspiration from:
 
 - FXLabel by Nick Lockwood, https://github.com/nicklockwood/FXLabel
 - KSLabel by Kai Schweiger, https://github.com/vigorouscoding/KSLabel
+- GTMFadeTruncatingLabel by Google, https://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/iPhone/
 
 Big thanks to Jason Miller for showing me sample code of his implementation using Core Text! It inspired me to dig deeper and move away from drawing with NSAttributedString on iOS 7, which caused a lot of problems.
 

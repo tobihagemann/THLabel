@@ -1,3 +1,8 @@
+Version 1.3
+
+- Added fadeTruncatingMode property.
+- Fixed overlapping non-opaque strokes.
+
 Version 1.2
 
 - Added innerShadowBlur, innerShadowOffset and innerShadowColor properties.
