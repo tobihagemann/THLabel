@@ -1,3 +1,8 @@
+Version 1.3.1
+
+- Fixed memory leak.
+- Updated example and screenshot.
+
 Version 1.3
 
 - Added fadeTruncatingMode property.

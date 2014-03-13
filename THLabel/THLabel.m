@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.3
+//  Version 1.3.1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -355,6 +355,7 @@
 		CGContextDrawImage(context, rect, image);
 		
 		// Clean up.
+		CGImageRelease(linearGradientImage);
 		CGImageRelease(image);
 		
 		CGContextRestoreGState(context);

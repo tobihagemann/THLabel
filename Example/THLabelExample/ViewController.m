@@ -11,8 +11,10 @@
 
 #define kShadowColor1		[UIColor blackColor]
 #define kShadowColor2		[UIColor colorWithWhite:0.0 alpha:0.75]
-#define kShadowOffset		CGSizeMake(0.0, UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 4.0 : 2.0)
-#define kShadowBlur			(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 10.0 : 5.0)
+#define kShadowOffset1		CGSizeMake(0.0, UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 4.0 : 2.0)
+#define kShadowOffset2		CGSizeMake(0.0, UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 2.0 : 1.0)
+#define kShadowBlur1		(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 10.0 : 5.0)
+#define kShadowBlur2		(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 4.0 : 2.0)
 
 #define kStrokeColor		[UIColor blackColor]
 #define kStrokeSize			(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 6.0 : 3.0)
@@ -25,6 +27,8 @@
 @property (nonatomic, weak) IBOutlet THLabel *label2;
 @property (nonatomic, weak) IBOutlet THLabel *label3;
 @property (nonatomic, weak) IBOutlet THLabel *label4;
+@property (nonatomic, weak) IBOutlet THLabel *label5;
+@property (nonatomic, weak) IBOutlet THLabel *label6;
 @end
 
 @implementation ViewController
@@ -34,25 +38,36 @@
 	
 	// Demonstrate shadow blur.
 	self.label1.shadowColor = kShadowColor1;
-	self.label1.shadowOffset = kShadowOffset;
-	self.label1.shadowBlur = kShadowBlur;
+	self.label1.shadowOffset = kShadowOffset1;
+	self.label1.shadowBlur = kShadowBlur1;
+	
+	// Demonstrate inner shadow.
+	self.label2.innerShadowColor = kShadowColor1;
+	self.label2.innerShadowOffset = kShadowOffset2;
+	self.label2.innerShadowBlur = kShadowBlur2;
 	
 	// Demonstrate stroke.
-	self.label2.strokeColor = kStrokeColor;
-	self.label2.strokeSize = kStrokeSize;
+	self.label3.strokeColor = kStrokeColor;
+	self.label3.strokeSize = kStrokeSize;
 	
 	// Demonstrate fill gradient.
-	self.label3.gradientStartColor = kGradientStartColor;
-	self.label3.gradientEndColor = kGradientEndColor;
-	
-	// Demonstrate everything.
-	self.label4.shadowColor = kShadowColor2;
-	self.label4.shadowOffset = kShadowOffset;
-	self.label4.shadowBlur = kShadowBlur;
-	self.label4.strokeColor = kStrokeColor;
-	self.label4.strokeSize = kStrokeSize;
 	self.label4.gradientStartColor = kGradientStartColor;
 	self.label4.gradientEndColor = kGradientEndColor;
+	
+	// Demonstrate fade truncating.
+	self.label5.fadeTruncatingMode = THLabelFadeTruncatingModeTail;
+	
+	// Demonstrate everything.
+	self.label6.shadowColor = kShadowColor2;
+	self.label6.shadowOffset = kShadowOffset1;
+	self.label6.shadowBlur = kShadowBlur1;
+	self.label6.innerShadowColor = kShadowColor2;
+	self.label6.innerShadowOffset = kShadowOffset2;
+	self.label6.innerShadowBlur = kShadowBlur2;
+	self.label6.strokeColor = kStrokeColor;
+	self.label6.strokeSize = kStrokeSize;
+	self.label6.gradientStartColor = kGradientStartColor;
+	self.label6.gradientEndColor = kGradientEndColor;
 }
 
 @end
