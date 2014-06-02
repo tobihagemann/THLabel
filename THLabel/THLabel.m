@@ -311,25 +311,25 @@
 	if (hasInnerShadow) {
         for (THLabelShadow *shadow in self.shadows) {
             if (shadow.shadowType == THLabelShadowTypeInner) {
-            CGContextSaveGState(context);
-            
-            // Clip the current context to alpha mask.
-            CGContextClipToMask(context, rect, alphaMask);
-            
-            // Invert to draw the inner shadow correctly.
-            CGContextTranslateCTM(context, 0.0, CGRectGetHeight(rect));
-            CGContextScaleCTM(context, 1.0, -1.0);
-            
-            // Draw inner shadow.
-            CGImageRef shadowImage = [self inverseMaskFromAlphaMask:alphaMask withRect:rect];
-            CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlur, shadow.shadowColor.CGColor);
-            CGContextSetBlendMode(context, kCGBlendModeDarken);
-            CGContextDrawImage(context, rect, shadowImage);
-            
-            // Clean up.
-            CGImageRelease(shadowImage);
-            
-            CGContextRestoreGState(context);
+                CGContextSaveGState(context);
+                
+                // Clip the current context to alpha mask.
+                CGContextClipToMask(context, rect, alphaMask);
+                
+                // Invert to draw the inner shadow correctly.
+                CGContextTranslateCTM(context, 0.0, CGRectGetHeight(rect));
+                CGContextScaleCTM(context, 1.0, -1.0);
+                
+                // Draw inner shadow.
+                CGImageRef shadowImage = [self inverseMaskFromAlphaMask:alphaMask withRect:rect];
+                CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlur, shadow.shadowColor.CGColor);
+                CGContextSetBlendMode(context, kCGBlendModeDarken);
+                CGContextDrawImage(context, rect, shadowImage);
+                
+                // Clean up.
+                CGImageRelease(shadowImage);
+                
+                CGContextRestoreGState(context);
             }
         }
 	}
