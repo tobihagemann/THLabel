@@ -655,7 +655,7 @@
 
 - (instancetype)initWithColor:(UIColor *)color blur:(CGFloat)blur offset:(CGSize)offset type:(THLabelShadowType)type
 {
-    NSParameterAssert(color && ![color isEqual:[UIColor clearColor]]);
+//    NSParameterAssert(color && ![color isEqual:[UIColor clearColor]]);
 
     self = [super init];
     if (self) {
@@ -678,7 +678,7 @@
 
 - (instancetype)initWithColor:(UIColor *)color size:(CGFloat)size position:(THLabelStrokePosition)position
 {
-    NSParameterAssert(color && ![color isEqual:[UIColor clearColor]]);
+//    NSParameterAssert(color && ![color isEqual:[UIColor clearColor]]);
 
     self = [super init];
     if (self) {
