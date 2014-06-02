@@ -53,6 +53,16 @@
 
 #import "THLabel.h"
 
+@interface THLabel ()
+{
+    BOOL _hasOuterShadow;
+    BOOL _hasInnerShadow;
+    BOOL _needMaskOnStroke; // We could use NSPredicate to filter the arrays while drawing, but that will be much more faster to set them on adds methods
+}
+@property (nonatomic, strong) NSMutableArray *shadows;
+@property (nonatomic, strong) NSMutableArray *strokes;
+@end
+
 @implementation THLabel
 
 - (id)initWithFrame:(CGRect)frame {
@@ -75,7 +85,47 @@
 	self.gradientEndPoint = CGPointMake(0.5, 0.8);
 }
 
+#pragma mark - Adding shadow and strokes
+
+- (void)addShadow:(THLabelShadow *)shadow {
+    NSParameterAssert(shadow);
+    switch (shadow.shadowType) {
+        case THLabelShadowTypeOuter:
+            _hasOuterShadow = YES;
+            break;
+        case THLabelShadowTypeInner:
+            _hasInnerShadow = YES;
+            break;
+        default:
+            break;
+    }
+    [self.shadows addObject:shadow];
+}
+
+- (void)addStroke:(THLabelStroke *)stroke {
+    NSParameterAssert(stroke);
+    if (stroke.strokePosition == THLabelStrokePositionInside) {
+        _needMaskOnStroke = YES;
+    }
+    
+    [self.strokes addObject:stroke];
+}
+
 #pragma mark - Accessors and Mutators
+
+- (NSMutableArray *)strokes {
+    if (!_strokes) {
+        _strokes = [NSMutableArray new];
+    }
+    return _strokes;
+}
+
+- (NSMutableArray *)shadows {
+    if (!_shadows) {
+        _shadows = [NSMutableArray new];
+    }
+    return _shadows;
+}
 
 - (UIColor *)gradientStartColor {
 	return [self.gradientColors count] ? [self.gradientColors objectAtIndex:0] : nil;
@@ -123,14 +173,14 @@
 	}
 }
 
-- (CGFloat)strokeSizeDependentOnStrokePosition {
-	switch (self.strokePosition) {
+- (CGFloat)strokeSizeDependentOnStrokePosition:(THLabelStroke*)stroke {
+	switch (stroke.strokePosition) {
 		case THLabelStrokePositionCenter:
-			return self.strokeSize;
+			return stroke.strokeSize;
 			
 		default:
 			// Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
-			return self.strokeSize * 2.0;
+			return stroke.strokeSize * 2.0;
 	}
 }
 
@@ -146,12 +196,12 @@
 	// Determine what has to be drawn.
 	// -------
 	
-	BOOL hasShadow = self.shadowColor && ![self.shadowColor isEqual:[UIColor clearColor]] && (self.shadowBlur > 0.0 || !CGSizeEqualToSize(self.shadowOffset, CGSizeZero));
-	BOOL hasInnerShadow = self.innerShadowColor && ![self.innerShadowColor isEqual:[UIColor clearColor]] && (self.innerShadowBlur > 0.0 || !CGSizeEqualToSize(self.innerShadowOffset, CGSizeZero));
-	BOOL hasStroke = self.strokeSize > 0.0 && ![self.strokeColor isEqual:[UIColor clearColor]];
+	BOOL hasShadow = _hasOuterShadow;
+	BOOL hasInnerShadow = _hasInnerShadow;
+	BOOL hasStroke = [self.strokes count] != 0;
 	BOOL hasGradient = [self.gradientColors count] > 1;
 	BOOL hasFadeTruncating = self.fadeTruncatingMode != THLabelFadeTruncatingModeNone;
-	BOOL needsMask = hasGradient || (hasStroke && self.strokePosition == THLabelStrokePositionInside) || hasInnerShadow;
+	BOOL needsMask = hasGradient || (hasStroke && _needMaskOnStroke) || hasInnerShadow;
 	
 	// -------
 	// Step 1: Begin new drawing context, where we will apply all our styles.
@@ -171,6 +221,12 @@
 	// Step 2: Prepare mask.
 	// -------
 	
+    // Compute the max stroke size
+    CGFloat maxStrokeSize = 0.0f;
+    for (THLabelStroke *stroke in self.strokes) {
+        maxStrokeSize = MAX(maxStrokeSize, [self strokeSizeDependentOnStrokePosition:stroke]);
+    }
+    
 	if (needsMask) {
 		CGContextSaveGState(context);
 		
@@ -178,7 +234,7 @@
 		if (hasStroke) {
 			// Text needs invisible stroke for consistent character glyph widths.
 			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-			CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
+			CGContextSetLineWidth(context, maxStrokeSize);
 			CGContextSetLineJoin(context, kCGLineJoinRound);
 			[[UIColor clearColor] setStroke];
 		} else {
@@ -208,7 +264,7 @@
 		if (hasStroke) {
 			// Text needs invisible stroke for consistent character glyph widths.
 			CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-			CGContextSetLineWidth(context, [self strokeSizeDependentOnStrokePosition]);
+			CGContextSetLineWidth(context, maxStrokeSize);
 			CGContextSetLineJoin(context, kCGLineJoinRound);
 			[[UIColor clearColor] setStroke];
 		} else {
@@ -253,25 +309,29 @@
 	// -------
 	
 	if (hasInnerShadow) {
-		CGContextSaveGState(context);
-		
-		// Clip the current context to alpha mask.
-		CGContextClipToMask(context, rect, alphaMask);
-		
-		// Invert to draw the inner shadow correctly.
-		CGContextTranslateCTM(context, 0.0, CGRectGetHeight(rect));
-		CGContextScaleCTM(context, 1.0, -1.0);
-
-		// Draw inner shadow.
-		CGImageRef shadowImage = [self inverseMaskFromAlphaMask:alphaMask withRect:rect];
-		CGContextSetShadowWithColor(context, self.innerShadowOffset, self.innerShadowBlur, self.innerShadowColor.CGColor);
-		CGContextSetBlendMode(context, kCGBlendModeDarken);
-		CGContextDrawImage(context, rect, shadowImage);
-		
-		// Clean up.
-		CGImageRelease(shadowImage);
-		
-		CGContextRestoreGState(context);
+        for (THLabelShadow *shadow in self.shadows) {
+            if (shadow.shadowType == THLabelShadowTypeInner) {
+            CGContextSaveGState(context);
+            
+            // Clip the current context to alpha mask.
+            CGContextClipToMask(context, rect, alphaMask);
+            
+            // Invert to draw the inner shadow correctly.
+            CGContextTranslateCTM(context, 0.0, CGRectGetHeight(rect));
+            CGContextScaleCTM(context, 1.0, -1.0);
+            
+            // Draw inner shadow.
+            CGImageRef shadowImage = [self inverseMaskFromAlphaMask:alphaMask withRect:rect];
+            CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlur, shadow.shadowColor.CGColor);
+            CGContextSetBlendMode(context, kCGBlendModeDarken);
+            CGContextDrawImage(context, rect, shadowImage);
+            
+            // Clean up.
+            CGImageRelease(shadowImage);
+            
+            CGContextRestoreGState(context);
+            }
+        }
 	}
 
 	// -------
@@ -279,34 +339,36 @@
 	// -------
 	
 	if (hasStroke) {
-		CGContextSaveGState(context);
-		
-		CGContextSetTextDrawingMode(context, kCGTextStroke);
-		
-		CGImageRef image = NULL;
-		
-		if (self.strokePosition == THLabelStrokePositionOutside) {
-			// Create an image from the text.
-			image = CGBitmapContextCreateImage(context);
-		} else if (self.strokePosition == THLabelStrokePositionInside) {
-			// Clip the current context to alpha mask.
-			CGContextClipToMask(context, rect, alphaMask);
-		}
-		
-		// Draw stroke.
-		CGImageRef strokeImage = [self strokeImageWithRect:rect frameRef:frameRef strokeSize:[self strokeSizeDependentOnStrokePosition] strokeColor:self.strokeColor];
-		CGContextDrawImage(context, rect, strokeImage);
-		
-		if (self.strokePosition == THLabelStrokePositionOutside) {
-			// Draw the saved image over half of the stroke.
-			CGContextDrawImage(context, rect, image);
-		}
-		
-		// Clean up.
-		CGImageRelease(strokeImage);
-		CGImageRelease(image);
-		
-		CGContextRestoreGState(context);
+        for (THLabelStroke *stroke in self.strokes) {
+            CGContextSaveGState(context);
+            
+            CGContextSetTextDrawingMode(context, kCGTextStroke);
+            
+            CGImageRef image = NULL;
+            
+            if (stroke.strokePosition == THLabelStrokePositionOutside) {
+                // Create an image from the text.
+                image = CGBitmapContextCreateImage(context);
+            } else if (stroke.strokePosition == THLabelStrokePositionInside) {
+                // Clip the current context to alpha mask.
+                CGContextClipToMask(context, rect, alphaMask);
+            }
+            
+            // Draw stroke.
+            CGImageRef strokeImage = [self strokeImageWithRect:rect frameRef:frameRef strokeSize:[self strokeSizeDependentOnStrokePosition:stroke] strokeColor:stroke.strokeColor];
+            CGContextDrawImage(context, rect, strokeImage);
+            
+            if (stroke.strokePosition == THLabelStrokePositionOutside) {
+                // Draw the saved image over half of the stroke.
+                CGContextDrawImage(context, rect, image);
+            }
+            
+            // Clean up.
+            CGImageRelease(strokeImage);
+            CGImageRelease(image);
+            
+            CGContextRestoreGState(context);
+        }
 	}
 	
 	// -------
@@ -314,25 +376,29 @@
 	// -------
 	
 	if (hasShadow) {
-		CGContextSaveGState(context);
-		
-		// Create an image from the text.
-		CGImageRef image = CGBitmapContextCreateImage(context);
-		
-		// Clear the content.
-		CGContextClearRect(context, rect);
-		
-		// Set shadow attributes.
-		CGContextSetShadowWithColor(context, self.shadowOffset, self.shadowBlur, self.shadowColor.CGColor);
-		
-		// Draw the saved image, which throws off a shadow.
-		CGContextDrawImage(context, rect, image);
-		
-		// Clean up.
-		CGImageRelease(image);
-		
-		CGContextRestoreGState(context);
-	}
+        for (THLabelShadow *shadow in self.shadows) {
+            if (shadow.shadowType == THLabelShadowTypeOuter) {
+                CGContextSaveGState(context);
+                
+                // Create an image from the text.
+                CGImageRef image = CGBitmapContextCreateImage(context);
+                
+                // Clear the content.
+                CGContextClearRect(context, rect);
+                
+                // Set shadow attributes.
+                CGContextSetShadowWithColor(context, shadow.shadowOffset, shadow.shadowBlur, shadow.shadowColor.CGColor);
+                
+                // Draw the saved image, which throws off a shadow.
+                CGContextDrawImage(context, rect, image);
+                
+                // Clean up.
+                CGImageRelease(image);
+                
+                CGContextRestoreGState(context);
+            }
+        }
+    }
 	
 	// -------
 	// Step 7: Draw fade truncating.
@@ -581,6 +647,51 @@
 	CGImageRef image = CGBitmapContextCreateImage(context);
 	UIGraphicsEndImageContext();
 	return image;
+}
+
+@end
+
+@implementation THLabelShadow
+
+- (instancetype)initWithColor:(UIColor *)color blur:(CGFloat)blur offset:(CGSize)offset type:(THLabelShadowType)type
+{
+    NSParameterAssert(color && ![color isEqual:[UIColor clearColor]]);
+
+    self = [super init];
+    if (self) {
+        self.shadowColor = color;
+        self.shadowBlur = blur,
+        self.shadowOffset = offset;
+        self.shadowType = type;
+    }
+    return self;
+}
+
++ (instancetype)newWithColor:(UIColor *)color blur:(CGFloat)blur offset:(CGSize)offset type:(THLabelShadowType)type
+{
+    return [[self alloc] initWithColor:color blur:blur offset:offset type:type];
+}
+
+@end
+
+@implementation THLabelStroke
+
+- (instancetype)initWithColor:(UIColor *)color size:(CGFloat)size position:(THLabelStrokePosition)position
+{
+    NSParameterAssert(color && ![color isEqual:[UIColor clearColor]]);
+
+    self = [super init];
+    if (self) {
+        self.strokeColor = color;
+        self.strokeSize = size;
+        self.strokePosition = position;
+    }
+    return self;
+}
+
++ (instancetype)newWithColor:(UIColor *)color size:(CGFloat)size position:(THLabelStrokePosition)position
+{
+    return [[self alloc] initWithColor:color size:size position:position];
 }
 
 @end
