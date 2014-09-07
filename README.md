@@ -75,7 +75,7 @@ Effects like stroke and shadow can't be drawn outside of the bounds of the label
 	@property (nonatomic, assign) CGFloat letterSpacing;
 ```
 
-You can programmatically modify the letter spacing of the text (eg. the kern amount between characters) by changing the `letterSpacing` property. The default value is `0`; a positive value will separate characters, whereas a negative value will make them closer.
+You can modify the letter spacing of the text (also known as kerning) by changing the `letterSpacing` property. The default value is `0.0`. A positive value will separate the characters, whereas a negative value will make them closer.
 
 ## Notes
 

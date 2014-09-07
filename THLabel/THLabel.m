@@ -73,7 +73,7 @@
 - (void)setDefaults {
 	self.gradientStartPoint = CGPointMake(0.5, 0.2);
 	self.gradientEndPoint = CGPointMake(0.5, 0.8);
-	self.letterSpacing = 0.0f;
+	self.letterSpacing = 0.0;
 }
 
 #pragma mark - Accessors and Mutators
@@ -391,12 +391,9 @@
 		{kCTParagraphStyleSpecifierLineBreakMode, sizeof(CTLineBreakMode), &lineBreakMode}
 	};
 	CTParagraphStyleRef paragraphStyleRef = CTParagraphStyleCreate(paragraphStyleSettings, 2);
+	CFNumberRef kernRef = CFNumberCreate(kCFAllocatorDefault, kCFNumberCGFloatType, &_letterSpacing);
 	
-	// Set up kerning
-	CFNumberRef kernRef = CFNumberCreate(NULL, kCFNumberDoubleType, &_letterSpacing);
-  
 	// Set up attributed string.
-  
 	CFStringRef keys[] = {kCTFontAttributeName, kCTParagraphStyleAttributeName, kCTForegroundColorAttributeName, kCTKernAttributeName};
 	CFTypeRef values[] = {fontRef, paragraphStyleRef, self.textColor.CGColor, kernRef};
 	CFDictionaryRef attributes = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&keys, (const void **)&values, sizeof(keys) / sizeof(keys[0]), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);

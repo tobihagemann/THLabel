@@ -59,6 +59,8 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 
 @interface THLabel : UILabel
 
+@property (nonatomic, assign) CGFloat letterSpacing;
+
 @property (nonatomic, assign) CGFloat shadowBlur;
 
 @property (nonatomic, assign) CGFloat innerShadowBlur;
@@ -68,8 +70,6 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 @property (nonatomic, assign) CGFloat strokeSize;
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, assign) THLabelStrokePosition strokePosition;
-
-@property (nonatomic, assign) CGFloat letterSpacing;
 
 @property (nonatomic, strong) UIColor *gradientStartColor;
 @property (nonatomic, strong) UIColor *gradientEndColor;
