@@ -57,19 +57,36 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 	THLabelFadeTruncatingModeHeadAndTail = THLabelFadeTruncatingModeHead | THLabelFadeTruncatingModeTail
 };
 
-@interface THLabel : UILabel
+typedef NS_ENUM(NSInteger, THLabelShadowType) {
+    THLabelShadowTypeOuter,
+    THLabelShadowTypeInner
+};
+
+@interface THLabelShadow : NSObject
+- (instancetype) initWithColor:(UIColor*)color blur:(CGFloat)blur offset:(CGSize)offset type:(THLabelShadowType)type;
++ (instancetype) newWithColor:(UIColor*)color blur:(CGFloat)blur offset:(CGSize)offset type:(THLabelShadowType)type;
 
 @property (nonatomic, assign) CGFloat letterSpacing;
 
 @property (nonatomic, assign) CGFloat shadowBlur;
+@property (nonatomic, strong) UIColor *shadowColor;
+@property (nonatomic, assign) CGSize shadowOffset;
+@property (nonatomic, assign) THLabelShadowType shadowType;
+@end
 
-@property (nonatomic, assign) CGFloat innerShadowBlur;
-@property (nonatomic, assign) CGSize innerShadowOffset;
-@property (nonatomic, strong) UIColor *innerShadowColor;
+@interface THLabelStroke : NSObject
+- (instancetype) initWithColor:(UIColor*)color size:(CGFloat)size position:(THLabelStrokePosition)position;
++ (instancetype) newWithColor:(UIColor*)color size:(CGFloat)size position:(THLabelStrokePosition)position;
 
 @property (nonatomic, assign) CGFloat strokeSize;
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, assign) THLabelStrokePosition strokePosition;
+@end
+
+@interface THLabel : UILabel
+
+@property (nonatomic, assign) THLabelFadeTruncatingMode fadeTruncatingMode;
+@property (nonatomic, assign) UIEdgeInsets textInsets;
 
 @property (nonatomic, strong) UIColor *gradientStartColor;
 @property (nonatomic, strong) UIColor *gradientEndColor;
@@ -77,8 +94,7 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 @property (nonatomic, assign) CGPoint gradientStartPoint;
 @property (nonatomic, assign) CGPoint gradientEndPoint;
 
-@property (nonatomic, assign) THLabelFadeTruncatingMode fadeTruncatingMode;
-
-@property (nonatomic, assign) UIEdgeInsets textInsets;
+- (void) addShadow:(THLabelShadow *)shadow;
+- (void) addStroke:(THLabelStroke *)stroke;
 
 @end
