@@ -78,7 +78,7 @@
 #pragma mark - Accessors and Mutators
 
 - (UIColor *)gradientStartColor {
-	return [self.gradientColors count] ? [self.gradientColors objectAtIndex:0] : nil;
+	return [self.gradientColors count] ? [self.gradientColors firstObject] : nil;
 }
 
 - (void)setGradientStartColor:(UIColor *)gradientStartColor {
@@ -233,10 +233,10 @@
 		// Create gradient.
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 		CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)gradientColors, NULL);
-		CGPoint startPoint = CGPointMake(textRect.origin.x + self.gradientStartPoint.x * textRect.size.width,
-										 textRect.origin.y + self.gradientStartPoint.y * textRect.size.height);
-		CGPoint endPoint = CGPointMake(textRect.origin.x + self.gradientEndPoint.x * textRect.size.width,
-									   textRect.origin.y + self.gradientEndPoint.y * textRect.size.height);
+		CGPoint startPoint = CGPointMake(textRect.origin.x + self.gradientStartPoint.x * CGRectGetWidth(textRect),
+										 textRect.origin.y + self.gradientStartPoint.y * CGRectGetHeight(textRect));
+		CGPoint endPoint = CGPointMake(textRect.origin.x + self.gradientEndPoint.x * CGRectGetWidth(textRect),
+									   textRect.origin.y + self.gradientEndPoint.y * CGRectGetHeight(textRect));
 		
 		// Draw gradient.
 		CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
@@ -436,7 +436,7 @@
 }
 
 - (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {
-	CGRect contentRect = CGRectMake(0.0, 0.0, bounds.size.width, bounds.size.height);
+	CGRect contentRect = CGRectMake(0.0, 0.0, CGRectGetWidth(bounds), CGRectGetHeight(bounds));
 	
 	// Apply insets.
 	contentRect.origin.x += insets.left;
@@ -559,7 +559,7 @@
 	CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, components, locs, 2);
 	
 	// Draw head and/or tail gradient.
-	CGFloat fadeWidth = MIN(CGRectGetHeight(rect) * 2.0, floor(CGRectGetWidth(rect) / 4.0));
+	CGFloat fadeWidth = fminf(CGRectGetHeight(rect) * 2.0, floorf(CGRectGetWidth(rect) / 4.0));
 	CGFloat minX = CGRectGetMinX(rect);
 	CGFloat maxX = CGRectGetMaxX(rect);
 	if (fadeTail) {
