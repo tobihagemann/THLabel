@@ -71,6 +71,12 @@ You can fade in/out your label by setting the `fadeTruncatingMode` property. Def
 
 Effects like stroke and shadow can't be drawn outside of the bounds of the label view. For labels that are not center-aligned, you may need to set text insets to move a bit away from the edge.
 
+``` objective-c
+	@property (nonatomic, assign) CGFloat letterSpacing;
+```
+
+You can programmatically modify the letter spacing of the text (eg. the kern amount between characters) by changing the `letterSpacing` property. The default value is `0`; a positive value will separate characters, whereas a negative value will make them closer.
+
 ## Notes
 
 THLabel respects (unlike UILabel) the `contentMode` property, which is used for vertical alignment. The `textAlignment` still has the higher priority, when it comes to horizontal alignment.
