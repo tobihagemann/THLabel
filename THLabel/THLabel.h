@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.3.1
+//  Version 1.4 beta 1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -80,5 +80,6 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 @property (nonatomic, assign) THLabelFadeTruncatingMode fadeTruncatingMode;
 
 @property (nonatomic, assign) UIEdgeInsets textInsets;
+@property (nonatomic, assign) BOOL automaticallyAdjustTextInsets;
 
 @end

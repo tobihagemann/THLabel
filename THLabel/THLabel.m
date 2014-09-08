@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.3.1
+//  Version 1.4 beta 1
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -71,21 +71,36 @@
 }
 
 - (void)setDefaults {
+	self.letterSpacing = 0.0;
 	self.gradientStartPoint = CGPointMake(0.5, 0.2);
 	self.gradientEndPoint = CGPointMake(0.5, 0.8);
-	self.letterSpacing = 0.0;
+	self.automaticallyAdjustTextInsets = YES;
 }
 
--(void)sizeToFit
-{
-    [super sizeToFit];
-    CGRect frame = self.frame;
-    CGRect expandedFrame = CGRectInset(frame, -self.strokeSize * 2, -self.strokeSize *2);
-    
-    [self setFrame:expandedFrame];
-    [self setTextInsets:UIEdgeInsetsMake(self.strokeSize, self.strokeSize, self.strokeSize, self.strokeSize)];
-    
-    [self setNeedsDisplay];
+- (BOOL)hasShadow {
+	return self.shadowColor && ![self.shadowColor isEqual:[UIColor clearColor]] && (self.shadowBlur > 0.0 || !CGSizeEqualToSize(self.shadowOffset, CGSizeZero));
+}
+
+- (BOOL)hasInnerShadow {
+	return self.innerShadowColor && ![self.innerShadowColor isEqual:[UIColor clearColor]] && (self.innerShadowBlur > 0.0 || !CGSizeEqualToSize(self.innerShadowOffset, CGSizeZero));
+}
+
+- (BOOL)hasStroke {
+	return self.strokeSize > 0.0 && ![self.strokeColor isEqual:[UIColor clearColor]];
+}
+
+- (BOOL)hasGradient {
+	return [self.gradientColors count] > 1;
+}
+
+- (BOOL)hasFadeTruncating {
+	return self.fadeTruncatingMode != THLabelFadeTruncatingModeNone;
+}
+
+- (CGSize)sizeThatFits:(CGSize)size {
+	CGRect textRect;
+	[self frameRefFromSize:size textRectOutput:&textRect];
+	return CGSizeMake(CGRectGetWidth(textRect) + self.textInsets.left + self.textInsets.right, CGRectGetHeight(textRect) + self.textInsets.top + self.textInsets.bottom);
 }
 
 #pragma mark - Accessors and Mutators
@@ -159,11 +174,11 @@
 	// Determine what has to be drawn.
 	// -------
 	
-	BOOL hasShadow = self.shadowColor && ![self.shadowColor isEqual:[UIColor clearColor]] && (self.shadowBlur > 0.0 || !CGSizeEqualToSize(self.shadowOffset, CGSizeZero));
-	BOOL hasInnerShadow = self.innerShadowColor && ![self.innerShadowColor isEqual:[UIColor clearColor]] && (self.innerShadowBlur > 0.0 || !CGSizeEqualToSize(self.innerShadowOffset, CGSizeZero));
-	BOOL hasStroke = self.strokeSize > 0.0 && ![self.strokeColor isEqual:[UIColor clearColor]];
-	BOOL hasGradient = [self.gradientColors count] > 1;
-	BOOL hasFadeTruncating = self.fadeTruncatingMode != THLabelFadeTruncatingModeNone;
+	BOOL hasShadow = [self hasShadow];
+	BOOL hasInnerShadow = [self hasInnerShadow];
+	BOOL hasStroke = [self hasStroke];
+	BOOL hasGradient = [self hasGradient];
+	BOOL hasFadeTruncating = [self hasFadeTruncating];
 	BOOL needsMask = hasGradient || (hasStroke && self.strokePosition == THLabelStrokePositionInside) || hasInnerShadow;
 	
 	// -------
@@ -174,7 +189,7 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGImageRef alphaMask = NULL;
 	CGRect textRect;
-	CTFrameRef frameRef = [self setupFrameForDrawingOutTextRect:&textRect];
+	CTFrameRef frameRef = [self frameRefFromSize:self.bounds.size textRectOutput:&textRect];
 	
 	// Invert everything, because CG works with an inverted coordinate system.
 	CGContextTranslateCTM(context, 0.0, CGRectGetHeight(rect));
@@ -393,7 +408,7 @@
 	CFRelease(frameRef);
 }
 
-- (CTFrameRef)setupFrameForDrawingOutTextRect:(CGRect *)textRect {
+- (CTFrameRef)frameRefFromSize:(CGSize)size textRectOutput:(CGRect *)textRectOutput {
 	// Set up font.
 	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
 	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment ? NSTextAlignmentToCTTextAlignment(self.textAlignment) : [self CTTextAlignmentFromNSTextAlignment:self.textAlignment];
@@ -420,10 +435,16 @@
 	CTFramesetterRef framesetterRef = CTFramesetterCreateWithAttributedString(attributedStringRef);
 	CFRelease(attributedStringRef);
 	
-	CGRect contentRect = [self contentRectFromBounds:self.bounds withInsets:self.textInsets];
-	*textRect = [self textRectFromContentRect:contentRect framesetterRef:framesetterRef];
+	if (self.automaticallyAdjustTextInsets) {
+		self.textInsets = [self fittingTextInsets];
+	}
+	CGRect contentRect = [self contentRectFromSize:size withInsets:self.textInsets];
+	CGRect textRect = [self textRectFromContentRect:contentRect framesetterRef:framesetterRef];
+	if (textRectOutput) {
+		*textRectOutput = textRect;
+	}
 	CGMutablePathRef pathRef = CGPathCreateMutable();
-	CGPathAddRect(pathRef, NULL, *textRect);
+	CGPathAddRect(pathRef, NULL, textRect);
 	
 	CTFrameRef frameRef = CTFramesetterCreateFrame(framesetterRef, CFRangeMake(0, [self.text length]), pathRef, NULL);
 	CFRelease(framesetterRef);
@@ -449,8 +470,8 @@
 	}
 }
 
-- (CGRect)contentRectFromBounds:(CGRect)bounds withInsets:(UIEdgeInsets)insets {
-	CGRect contentRect = CGRectMake(0.0, 0.0, CGRectGetWidth(bounds), CGRectGetHeight(bounds));
+- (CGRect)contentRectFromSize:(CGSize)size withInsets:(UIEdgeInsets)insets {
+	CGRect contentRect = CGRectMake(0.0, 0.0, size.width, size.height);
 	
 	// Apply insets.
 	contentRect.origin.x += insets.left;
@@ -503,6 +524,42 @@
 	}
 	
 	return textRect;
+}
+
+- (UIEdgeInsets)fittingTextInsets {
+	UIEdgeInsets edgeInsetsWithStroke = UIEdgeInsetsZero;
+	if ([self hasStroke]) {
+		switch (self.strokePosition) {
+			case THLabelStrokePositionOutside:
+				edgeInsetsWithStroke = UIEdgeInsetsMake(self.strokeSize, self.strokeSize, self.strokeSize, self.strokeSize);
+				break;
+				
+			case THLabelStrokePositionCenter:
+				edgeInsetsWithStroke = UIEdgeInsetsMake(self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0);
+				break;
+				
+			default:
+				break;
+		}
+	}
+	
+	UIEdgeInsets edgeInsetsWithShadow = UIEdgeInsetsZero;
+	if ([self hasShadow]) {
+		edgeInsetsWithShadow = UIEdgeInsetsMake(
+			self.shadowOffset.height < 0.0 ? fabsf(self.shadowOffset.height) : 0.0,
+			self.shadowOffset.width < 0.0 ? fabsf(self.shadowOffset.width) : 0.0,
+			self.shadowOffset.height > 0.0 ? self.shadowOffset.height : 0.0,
+			self.shadowOffset.width > 0.0 ? self.shadowOffset.width : 0.0
+		);
+	}
+	
+	#warning TODO: Shadow blur is missing.
+	return UIEdgeInsetsMake(
+		fmaxf(edgeInsetsWithStroke.top, edgeInsetsWithShadow.top),
+		fmaxf(edgeInsetsWithStroke.left, edgeInsetsWithShadow.left),
+		fmaxf(edgeInsetsWithStroke.bottom, edgeInsetsWithShadow.bottom),
+		fmaxf(edgeInsetsWithStroke.right, edgeInsetsWithShadow.right)
+	);
 }
 
 #pragma mark - Image Functions
