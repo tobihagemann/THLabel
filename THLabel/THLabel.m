@@ -76,6 +76,18 @@
 	self.letterSpacing = 0.0;
 }
 
+-(void)sizeToFit
+{
+    [super sizeToFit];
+    CGRect frame = self.frame;
+    CGRect expandedFrame = CGRectInset(frame, -self.strokeSize * 2, -self.strokeSize *2);
+    
+    [self setFrame:expandedFrame];
+    [self setTextInsets:UIEdgeInsetsMake(self.strokeSize, self.strokeSize, self.strokeSize, self.strokeSize)];
+    
+    [self setNeedsDisplay];
+}
+
 #pragma mark - Accessors and Mutators
 
 - (UIColor *)gradientStartColor {
