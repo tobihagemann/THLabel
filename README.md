@@ -6,21 +6,32 @@ THLabel is a subclass of UILabel, which additionally allows shadow blur, inner s
 
 ## Requirements
 
-* iOS 4.0 or higher (below iOS 5.0 is untested though)
+* iOS 4.0 or higher (below iOS 7.0 is untested though)
 * ARC enabled
 
 ## Installation
 
-Add `CoreText.framework` to your *Link Binary with Libraries* list.
+The easiest way to use THLabel in your app is via [CocoaPods](http://cocoapods.org/ "CocoaPods").
 
-And drag these files into your project:
+1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4'`
+2. Run the command `pod install` from the Podfile folder directory.
 
-- `THLabel.h`
-- `THLabel.m`
+### Manual Installation
+
+1. Add `CoreText.framework` to your *Link Binary with Libraries* list.
+2. Drag these files into your project: `THLabel.h`, `THLabel.m`
+
+## Usage
 
 You can create THLabels programmatically, or create them in Interface Builder by dragging an ordinary UILabel into your view and setting its *Custom Class* to THLabel.
 
 ## Properties
+
+``` objective-c
+	@property (nonatomic, assign) CGFloat letterSpacing;
+```
+
+You can modify the letter spacing of the text (also known as kerning) by changing the `letterSpacing` property. The default value is `0.0`. A positive value will separate the characters, whereas a negative value will make them closer.
 
 ``` objective-c
 	@property (nonatomic, assign) CGFloat shadowBlur;
@@ -67,15 +78,10 @@ You can fade in/out your label by setting the `fadeTruncatingMode` property. Def
 
 ``` objective-c
 	@property (nonatomic, assign) UIEdgeInsets textInsets;
+	@property (nonatomic, assign) BOOL automaticallyAdjustTextInsets;
 ```
 
-Effects like stroke and shadow can't be drawn outside of the bounds of the label view. For labels that are not center-aligned, you may need to set text insets to move a bit away from the edge.
-
-``` objective-c
-	@property (nonatomic, assign) CGFloat letterSpacing;
-```
-
-You can modify the letter spacing of the text (also known as kerning) by changing the `letterSpacing` property. The default value is `0.0`. A positive value will separate the characters, whereas a negative value will make them closer.
+Effects like stroke and shadow can't be drawn outside of the bounds of the label view. You may need to set text insets to move a bit away from the edge so that the effects don't get clipped. This will be automatically done if you set `automaticallyAdjustTextInsets` to YES, which is also the default value.
 
 ## Notes
 

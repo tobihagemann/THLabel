@@ -1,3 +1,8 @@
+Version 1.4
+
+- Added logic for sizeThatFits and intrinsicContentSize.
+- Added letterSpacing and automaticallyAdjustTextInsets properties.
+
 Version 1.3.1
 
 - Fixed memory leak.
