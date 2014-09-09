@@ -1,3 +1,7 @@
+Version 1.4.1
+
+- Fixed crash, when text is nil.
+
 Version 1.4
 
 - Added logic for sizeThatFits and intrinsicContentSize.
