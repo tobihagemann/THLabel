@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.4 beta 3
+//  Version 1.4 beta 4
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -104,7 +104,10 @@
 - (CGSize)intrinsicContentSize {
 	CGRect textRect;
 	[self frameRefFromSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) textRectOutput:&textRect];
-	return CGSizeMake(CGRectGetWidth(textRect) + self.textInsets.left + self.textInsets.right, CGRectGetHeight(textRect) + self.textInsets.top + self.textInsets.bottom);
+	return CGSizeMake(
+		ceilf(CGRectGetWidth(textRect) + self.textInsets.left + self.textInsets.right),
+		ceilf(CGRectGetHeight(textRect) + self.textInsets.top + self.textInsets.bottom)
+	);
 }
 
 #pragma mark - Accessors and Mutators
