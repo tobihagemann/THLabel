@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.4 beta 4
+//  Version 1.4 beta 5
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -111,6 +111,10 @@
 }
 
 #pragma mark - Accessors and Mutators
+
+- (void)setShadowBlur:(CGFloat)shadowBlur {
+	_shadowBlur = fmaxf(shadowBlur, 0.0);
+}
 
 - (UIColor *)gradientStartColor {
 	return [self.gradientColors count] ? [self.gradientColors firstObject] : nil;
@@ -433,6 +437,7 @@
 	CFDictionaryRef attributes = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&keys, (const void **)&values, sizeof(keys) / sizeof(keys[0]), &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	CFRelease(fontRef);
 	CFRelease(paragraphStyleRef);
+	CFRelease(kernRef);
 	
 	CFStringRef stringRef = (__bridge CFStringRef)self.text;
 	CFAttributedStringRef attributedStringRef = CFAttributedStringCreate(kCFAllocatorDefault, stringRef, attributes);
@@ -534,15 +539,18 @@
 }
 
 - (UIEdgeInsets)fittingTextInsets {
-	UIEdgeInsets edgeInsetsWithStroke = UIEdgeInsetsZero;
-	if ([self hasStroke]) {
+	BOOL hasShadow = [self hasShadow];
+	BOOL hasStroke = [self hasStroke];
+	UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
+	
+	if (hasStroke) {
 		switch (self.strokePosition) {
 			case THLabelStrokePositionOutside:
-				edgeInsetsWithStroke = UIEdgeInsetsMake(self.strokeSize, self.strokeSize, self.strokeSize, self.strokeSize);
+				edgeInsets = UIEdgeInsetsMake(self.strokeSize, self.strokeSize, self.strokeSize, self.strokeSize);
 				break;
 				
 			case THLabelStrokePositionCenter:
-				edgeInsetsWithStroke = UIEdgeInsetsMake(self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0);
+				edgeInsets = UIEdgeInsetsMake(self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0);
 				break;
 				
 			default:
@@ -550,23 +558,14 @@
 		}
 	}
 	
-	UIEdgeInsets edgeInsetsWithShadow = UIEdgeInsetsZero;
-	if ([self hasShadow]) {
-		edgeInsetsWithShadow = UIEdgeInsetsMake(
-			self.shadowOffset.height < 0.0 ? fabsf(self.shadowOffset.height) : 0.0,
-			self.shadowOffset.width < 0.0 ? fabsf(self.shadowOffset.width) : 0.0,
-			self.shadowOffset.height > 0.0 ? self.shadowOffset.height : 0.0,
-			self.shadowOffset.width > 0.0 ? self.shadowOffset.width : 0.0
-		);
+	if (hasShadow) {
+		edgeInsets.top = fmaxf(edgeInsets.top + self.shadowBlur + self.shadowOffset.height, edgeInsets.top);
+		edgeInsets.left = fmaxf(edgeInsets.left + self.shadowBlur + self.shadowOffset.width, edgeInsets.left);
+		edgeInsets.bottom = fmaxf(edgeInsets.bottom + self.shadowBlur - self.shadowOffset.height, edgeInsets.bottom);
+		edgeInsets.right = fmaxf(edgeInsets.right + self.shadowBlur - self.shadowOffset.width, edgeInsets.right);
 	}
 	
-	#warning TODO: Shadow blur is missing.
-	return UIEdgeInsetsMake(
-		fmaxf(edgeInsetsWithStroke.top, edgeInsetsWithShadow.top),
-		fmaxf(edgeInsetsWithStroke.left, edgeInsetsWithShadow.left),
-		fmaxf(edgeInsetsWithStroke.bottom, edgeInsetsWithShadow.bottom),
-		fmaxf(edgeInsetsWithStroke.right, edgeInsetsWithShadow.right)
-	);
+	return edgeInsets;
 }
 
 #pragma mark - Image Functions

@@ -14,13 +14,11 @@
 		74338E6C16830723001B12C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74338E6A16830723001B12C9 /* InfoPlist.strings */; };
 		74338E6E16830723001B12C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74338E6D16830723001B12C9 /* main.m */; };
 		74338E7216830723001B12C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74338E7116830723001B12C9 /* AppDelegate.m */; };
-		74338E7416830723001B12C9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 74338E7316830723001B12C9 /* Default.png */; };
-		74338E7616830723001B12C9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74338E7516830723001B12C9 /* Default@2x.png */; };
-		74338E7816830723001B12C9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74338E7716830723001B12C9 /* Default-568h@2x.png */; };
 		74338E7B16830723001B12C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74338E7A16830723001B12C9 /* ViewController.m */; };
-		74338E7E16830723001B12C9 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74338E7C16830723001B12C9 /* ViewController_iPhone.xib */; };
-		74338E8116830723001B12C9 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74338E7F16830723001B12C9 /* ViewController_iPad.xib */; };
 		74338E92168307E8001B12C9 /* THLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74338E91168307E8001B12C9 /* THLabel.m */; };
+		74699B4619BF0EDA0099B0FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74699B4519BF0EDA0099B0FF /* Images.xcassets */; };
+		74699B4919BF21CE0099B0FF /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74699B4819BF21CE0099B0FF /* TableViewController.m */; };
+		74B737E319BF0E1D0098444F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74B737E219BF0E1D0098444F /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,15 +33,15 @@
 		74338E6F16830723001B12C9 /* THLabelExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "THLabelExample-Prefix.pch"; sourceTree = "<group>"; };
 		74338E7016830723001B12C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		74338E7116830723001B12C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		74338E7316830723001B12C9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		74338E7516830723001B12C9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		74338E7716830723001B12C9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		74338E7916830723001B12C9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		74338E7A16830723001B12C9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		74338E7D16830723001B12C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
-		74338E8016830723001B12C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
 		74338E90168307E8001B12C9 /* THLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THLabel.h; sourceTree = "<group>"; };
 		74338E91168307E8001B12C9 /* THLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THLabel.m; sourceTree = "<group>"; };
+		74699B4519BF0EDA0099B0FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		74699B4719BF21CE0099B0FF /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		74699B4819BF21CE0099B0FF /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		74699B4A19BF237C0099B0FF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		74B737E219BF0E1D0098444F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +91,15 @@
 		74338E6716830723001B12C9 /* THLabelExample */ = {
 			isa = PBXGroup;
 			children = (
+				74699B4A19BF237C0099B0FF /* Constants.h */,
 				74338E7016830723001B12C9 /* AppDelegate.h */,
 				74338E7116830723001B12C9 /* AppDelegate.m */,
 				74338E7916830723001B12C9 /* ViewController.h */,
 				74338E7A16830723001B12C9 /* ViewController.m */,
-				74338E7C16830723001B12C9 /* ViewController_iPhone.xib */,
-				74338E7F16830723001B12C9 /* ViewController_iPad.xib */,
+				74699B4719BF21CE0099B0FF /* TableViewController.h */,
+				74699B4819BF21CE0099B0FF /* TableViewController.m */,
+				74B737E219BF0E1D0098444F /* Main.storyboard */,
+				74699B4519BF0EDA0099B0FF /* Images.xcassets */,
 				74338E6816830723001B12C9 /* Supporting Files */,
 			);
 			path = THLabelExample;
@@ -111,9 +112,6 @@
 				74338E6A16830723001B12C9 /* InfoPlist.strings */,
 				74338E6D16830723001B12C9 /* main.m */,
 				74338E6F16830723001B12C9 /* THLabelExample-Prefix.pch */,
-				74338E7316830723001B12C9 /* Default.png */,
-				74338E7516830723001B12C9 /* Default@2x.png */,
-				74338E7716830723001B12C9 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -179,12 +177,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74699B4619BF0EDA0099B0FF /* Images.xcassets in Resources */,
 				74338E6C16830723001B12C9 /* InfoPlist.strings in Resources */,
-				74338E7416830723001B12C9 /* Default.png in Resources */,
-				74338E7616830723001B12C9 /* Default@2x.png in Resources */,
-				74338E7816830723001B12C9 /* Default-568h@2x.png in Resources */,
-				74338E7E16830723001B12C9 /* ViewController_iPhone.xib in Resources */,
-				74338E8116830723001B12C9 /* ViewController_iPad.xib in Resources */,
+				74B737E319BF0E1D0098444F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +193,7 @@
 				74338E6E16830723001B12C9 /* main.m in Sources */,
 				74338E7216830723001B12C9 /* AppDelegate.m in Sources */,
 				74338E7B16830723001B12C9 /* ViewController.m in Sources */,
+				74699B4919BF21CE0099B0FF /* TableViewController.m in Sources */,
 				74338E92168307E8001B12C9 /* THLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,22 +207,6 @@
 				74338E6B16830723001B12C9 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		74338E7C16830723001B12C9 /* ViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				74338E7D16830723001B12C9 /* en */,
-			);
-			name = ViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		74338E7F16830723001B12C9 /* ViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				74338E8016830723001B12C9 /* en */,
-			);
-			name = ViewController_iPad.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -254,7 +234,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -276,7 +256,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -287,6 +267,8 @@
 		74338E8516830723001B12C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "THLabelExample/THLabelExample-Prefix.pch";
 				INFOPLIST_FILE = "THLabelExample/THLabelExample-Info.plist";
@@ -298,6 +280,8 @@
 		74338E8616830723001B12C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "THLabelExample/THLabelExample-Prefix.pch";
 				INFOPLIST_FILE = "THLabelExample/THLabelExample-Info.plist";
