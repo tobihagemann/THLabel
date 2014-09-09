@@ -27,7 +27,6 @@
 	self.label1.shadowColor = kShadowColor1;
 	self.label1.shadowOffset = kShadowOffset;
 	self.label1.shadowBlur = kShadowBlur;
-	self.label1.text = nil;
 	
 	// Demonstrate inner shadow.
 	self.label2.innerShadowColor = kShadowColor1;
