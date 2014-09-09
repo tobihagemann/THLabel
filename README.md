@@ -2,7 +2,7 @@
 
 THLabel is a subclass of UILabel, which additionally allows shadow blur, inner shadow, stroke text and fill gradient.
 
-![THLabel screenshot](https://raw.github.com/MuscleRumble/THLabel/master/screenshot.png "THLabel screenshot")
+![THLabel screenshot](https://raw.githubusercontent.com/MuscleRumble/THLabel/master/screenshot.png "THLabel screenshot")
 
 ## Requirements
 
