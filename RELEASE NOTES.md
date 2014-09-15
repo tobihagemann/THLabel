@@ -1,3 +1,7 @@
+Version 1.4.3
+
+- Forcing clipsToBounds to YES, because of potential drawing issues.
+
 Version 1.4.2
 
 - Fixed unexpected truncation on iOS device.
