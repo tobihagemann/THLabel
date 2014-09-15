@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.4.1
+//  Version 1.4.2
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -501,7 +501,7 @@
 	if (CGSizeEqualToSize(suggestedTextRectSize, CGSizeZero)) {
 		suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, [self.text length]), NULL, CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX), NULL);
 	}
-	CGRect textRect = CGRectMake(0.0, 0.0, suggestedTextRectSize.width, suggestedTextRectSize.height);
+	CGRect textRect = CGRectMake(0.0, 0.0, ceilf(suggestedTextRectSize.width), ceilf(suggestedTextRectSize.height));
 	
 	// Horizontal alignment.
 	switch (self.textAlignment) {

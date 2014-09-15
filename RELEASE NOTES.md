@@ -1,3 +1,7 @@
+Version 1.4.2
+
+- Fixed unexpected truncation on iOS device.
+
 Version 1.4.1
 
 - Fixed crash, when text is nil.
