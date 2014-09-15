@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="width" constant="1" id="7H9-cU-Chf"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Inner Shadow" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Hs-P2-hla" customClass="THLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Inner Shadow" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Hs-P2-hla" customClass="THLabel">
                                 <rect key="frame" x="173" y="137" width="254" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -44,7 +44,7 @@
                                     <constraint firstAttribute="width" constant="1" id="mwt-jD-Kbj"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Stroke" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jH-TU-5Wy" customClass="THLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Stroke" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jH-TU-5Wy" customClass="THLabel">
                                 <rect key="frame" x="240" y="220" width="120" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -59,7 +59,7 @@
                                     <constraint firstAttribute="width" constant="1" id="tGI-oT-twv"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fill Gradient" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-xL-Qnv" customClass="THLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fill Gradient" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-xL-Qnv" customClass="THLabel">
                                 <rect key="frame" x="189" y="303" width="222" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -74,7 +74,7 @@
                                     <constraint firstAttribute="width" constant="1" id="6zq-Xu-jdY"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Fade Truncating" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hn-LK-JBo" customClass="THLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fade Truncating" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hn-LK-JBo" customClass="THLabel">
                                 <rect key="frame" x="160" y="386" width="280" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="i8g-AK-I01"/>
@@ -92,7 +92,7 @@
                                     <constraint firstAttribute="width" constant="1" id="nbB-o5-t9w"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Everything" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rm8-tw-CKi" customClass="THLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Everything" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rm8-tw-CKi" customClass="THLabel">
                                 <rect key="frame" x="203" y="468" width="195" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -107,7 +107,7 @@
                                     <constraint firstAttribute="width" constant="1" id="c0E-Sw-2rX"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Shadow Blur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgk-sv-MPR" customClass="THLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Shadow Blur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgk-sv-MPR" customClass="THLabel">
                                 <rect key="frame" x="182" y="55" width="236" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

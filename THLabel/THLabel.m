@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.4.2
+//  Version 1.4.3
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -71,6 +71,7 @@
 }
 
 - (void)setDefaults {
+	self.clipsToBounds = YES;
 	self.letterSpacing = 0.0;
 	self.gradientStartPoint = CGPointMake(0.5, 0.2);
 	self.gradientEndPoint = CGPointMake(0.5, 0.8);
