@@ -108,7 +108,9 @@
 	}
 	
 	CGRect textRect;
-	[self frameRefFromSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) textRectOutput:&textRect];
+	CTFrameRef frameRef = [self frameRefFromSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) textRectOutput:&textRect];
+	CFRelease(frameRef);
+	
 	return CGSizeMake(ceilf(CGRectGetWidth(textRect) + self.textInsets.left + self.textInsets.right),
 					  ceilf(CGRectGetHeight(textRect) + self.textInsets.top + self.textInsets.bottom));
 }
