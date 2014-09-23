@@ -13,7 +13,7 @@ THLabel is a subclass of UILabel, which additionally allows shadow blur, inner s
 
 The easiest way to use THLabel in your app is via [CocoaPods](http://cocoapods.org/ "CocoaPods").
 
-1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4.3'`
+1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4.4'`
 2. Run the command `pod install` from the Podfile folder directory.
 
 ### Manual Installation

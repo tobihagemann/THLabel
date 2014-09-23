@@ -1,3 +1,7 @@
+Version 1.4.4
+
+- Fixed memory leak.
+
 Version 1.4.3
 
 - Forcing clipsToBounds to YES, because of potential drawing issues.
