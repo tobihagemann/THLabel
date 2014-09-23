@@ -422,7 +422,7 @@
 	CFRelease(frameRef);
 }
 
-- (CTFrameRef)frameRefFromSize:(CGSize)size textRectOutput:(CGRect *)textRectOutput {
+- (CTFrameRef)frameRefFromSize:(CGSize)size textRectOutput:(CGRect *)textRectOutput CF_RETURNS_RETAINED {
 	// Set up font.
 	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
 	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment ? NSTextAlignmentToCTTextAlignment(self.textAlignment) : [self CTTextAlignmentFromNSTextAlignment:self.textAlignment];
@@ -573,7 +573,7 @@
 
 #pragma mark - Image Functions
 
-- (CGImageRef)inverseMaskFromAlphaMask:(CGImageRef)alphaMask withRect:(CGRect)rect {
+- (CGImageRef)inverseMaskFromAlphaMask:(CGImageRef)alphaMask withRect:(CGRect)rect CF_RETURNS_RETAINED {
 	// Create context.
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
 	CGContextRef context = UIGraphicsGetCurrentContext();
@@ -590,7 +590,7 @@
 	return image;
 }
 
-- (CGImageRef)strokeImageWithRect:(CGRect)rect frameRef:(CTFrameRef)frameRef strokeSize:(CGFloat)strokeSize strokeColor:(UIColor *)strokeColor {
+- (CGImageRef)strokeImageWithRect:(CGRect)rect frameRef:(CTFrameRef)frameRef strokeSize:(CGFloat)strokeSize strokeColor:(UIColor *)strokeColor CF_RETURNS_RETAINED {
 	// Create context.
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
 	CGContextRef context = UIGraphicsGetCurrentContext();
@@ -623,7 +623,7 @@
 	return image;
 }
 
-- (CGImageRef)linearGradientImageWithRect:(CGRect)rect fadeHead:(BOOL)fadeHead fadeTail:(BOOL)fadeTail {
+- (CGImageRef)linearGradientImageWithRect:(CGRect)rect fadeHead:(BOOL)fadeHead fadeTail:(BOOL)fadeTail CF_RETURNS_RETAINED {
 	// Create an opaque context.
 	UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0);
 	CGContextRef context = UIGraphicsGetCurrentContext();
