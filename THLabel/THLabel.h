@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.4.4
+//  Version 1.4.5
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -42,7 +42,6 @@
 //  3. This notice may not be removed or altered from any source distribution.
 //
 
-#import <UIKit/UIKit.h>
 
 #ifndef IB_DESIGNABLE
 	#define IB_DESIGNABLE
@@ -50,6 +49,9 @@
 #ifndef IBInspectable
 	#define IBInspectable
 #endif
+
+
+#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, THLabelStrokePosition) {
 	THLabelStrokePositionOutside,
@@ -68,6 +70,7 @@ IB_DESIGNABLE
 @interface THLabel : UILabel
 
 @property (nonatomic, assign) IBInspectable CGFloat letterSpacing;
+@property (nonatomic, assign) IBInspectable CGFloat lineSpacing;
 
 @property (nonatomic, assign) IBInspectable CGFloat shadowBlur;
 
