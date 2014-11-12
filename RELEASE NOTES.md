@@ -1,3 +1,8 @@
+Version 1.4.5
+
+- Added support for IB_DESIGNABLE and IBInspectable, only available with Xcode 6.
+- Added lineSpacing property.
+
 Version 1.4.4
 
 - Fixed memory leak.
