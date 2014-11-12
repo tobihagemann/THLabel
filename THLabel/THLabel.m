@@ -54,6 +54,10 @@
 #import "THLabel.h"
 
 @implementation THLabel
+#ifdef TARGET_INTERFACE_BUILDER
+@synthesize gradientStartColor = _gradientStartColor;
+@synthesize gradientEndColor = _gradientEndColor;
+#endif
 
 - (instancetype)initWithFrame:(CGRect)frame {
 	if (self = [super initWithFrame:frame]) {
@@ -126,6 +130,9 @@
 }
 
 - (void)setGradientStartColor:(UIColor *)gradientStartColor {
+#ifdef TARGET_INTERFACE_BUILDER
+	_gradientStartColor = gradientStartColor;
+#endif
 	if (gradientStartColor == nil) {
 		self.gradientColors = nil;
 	} else if (self.gradientColors.count < 2) {
@@ -142,6 +149,9 @@
 }
 
 - (void)setGradientEndColor:(UIColor *)gradientEndColor {
+#ifdef TARGET_INTERFACE_BUILDER
+	_gradientEndColor = gradientEndColor;
+#endif
 	if (gradientEndColor == nil) {
 		self.gradientColors = nil;
 	} else if (self.gradientColors.count < 2) {
@@ -273,6 +283,20 @@
 		for (UIColor *color in self.gradientColors) {
 			[gradientColors addObject:(__bridge id)color.CGColor];
 		}
+		
+#ifdef TARGET_INTERFACE_BUILDER
+		[gradientColors removeAllObjects];
+		if (_gradientStartColor && _gradientEndColor) {
+			[gradientColors addObject:(__bridge id)_gradientStartColor.CGColor];
+			[gradientColors addObject:(__bridge id)_gradientEndColor.CGColor];
+		} else if (_gradientStartColor) {
+			[gradientColors addObject:(__bridge id)_gradientStartColor.CGColor];
+			[gradientColors addObject:(__bridge id)_gradientStartColor.CGColor];
+		} else if (_gradientEndColor) {
+			[gradientColors addObject:(__bridge id)_gradientEndColor.CGColor];
+			[gradientColors addObject:(__bridge id)_gradientEndColor.CGColor];
+		}
+#endif
 		
 		// Create gradient.
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();

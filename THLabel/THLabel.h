@@ -44,17 +44,24 @@
 
 #import <UIKit/UIKit.h>
 
+#ifndef IB_DESIGNABLE
+	#define IB_DESIGNABLE
+#endif
+#ifndef IBInspectable
+	#define IBInspectable
+#endif
+
 typedef NS_ENUM(NSInteger, THLabelStrokePosition) {
-    THLabelStrokePositionOutside,
-    THLabelStrokePositionCenter,
-    THLabelStrokePositionInside
+	THLabelStrokePositionOutside,
+	THLabelStrokePositionCenter,
+	THLabelStrokePositionInside
 };
 
 typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
-    THLabelFadeTruncatingModeNone = 0,
-    THLabelFadeTruncatingModeTail = 1 << 0,
-    THLabelFadeTruncatingModeHead = 1 << 1,
-    THLabelFadeTruncatingModeHeadAndTail = THLabelFadeTruncatingModeHead | THLabelFadeTruncatingModeTail
+	THLabelFadeTruncatingModeNone = 0,
+	THLabelFadeTruncatingModeTail = 1 << 0,
+	THLabelFadeTruncatingModeHead = 1 << 1,
+	THLabelFadeTruncatingModeHeadAndTail = THLabelFadeTruncatingModeHead | THLabelFadeTruncatingModeTail
 };
 
 IB_DESIGNABLE
@@ -75,8 +82,8 @@ IB_DESIGNABLE
 @property (nonatomic, strong) IBInspectable UIColor *gradientStartColor;
 @property (nonatomic, strong) IBInspectable UIColor *gradientEndColor;
 @property (nonatomic, copy) NSArray *gradientColors;
-@property (nonatomic, assign) IBInspectable CGPoint gradientStartPoint;
-@property (nonatomic, assign) IBInspectable CGPoint gradientEndPoint;
+@property (nonatomic, assign) CGPoint gradientStartPoint;
+@property (nonatomic, assign) CGPoint gradientEndPoint;
 
 @property (nonatomic, assign) THLabelFadeTruncatingMode fadeTruncatingMode;
 
