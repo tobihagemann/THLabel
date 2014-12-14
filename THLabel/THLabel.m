@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.4.5
+//  Version 1.4.6
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -54,10 +54,6 @@
 #import "THLabel.h"
 
 @implementation THLabel
-#ifdef TARGET_INTERFACE_BUILDER
-@synthesize gradientStartColor = _gradientStartColor;
-@synthesize gradientEndColor = _gradientEndColor;
-#endif
 
 - (instancetype)initWithFrame:(CGRect)frame {
 	if (self = [super initWithFrame:frame]) {
@@ -130,14 +126,11 @@
 }
 
 - (void)setGradientStartColor:(UIColor *)gradientStartColor {
-#ifdef TARGET_INTERFACE_BUILDER
-	_gradientStartColor = gradientStartColor;
-#endif
 	if (gradientStartColor == nil) {
 		self.gradientColors = nil;
 	} else if (self.gradientColors.count < 2) {
 		self.gradientColors = @[gradientStartColor, gradientStartColor];
-	} else if ([self.gradientColors.firstObject isEqual:gradientStartColor]) {
+	} else if (![self.gradientColors.firstObject isEqual:gradientStartColor]) {
 		NSMutableArray *colors = [self.gradientColors mutableCopy];
 		colors[0] = gradientStartColor;
 		self.gradientColors = colors;
@@ -149,14 +142,11 @@
 }
 
 - (void)setGradientEndColor:(UIColor *)gradientEndColor {
-#ifdef TARGET_INTERFACE_BUILDER
-	_gradientEndColor = gradientEndColor;
-#endif
 	if (gradientEndColor == nil) {
 		self.gradientColors = nil;
 	} else if (self.gradientColors.count < 2) {
 		self.gradientColors = @[gradientEndColor, gradientEndColor];
-	} else if ([self.gradientColors.lastObject isEqual:gradientEndColor]) {
+	} else if (![self.gradientColors.lastObject isEqual:gradientEndColor]) {
 		NSMutableArray *colors = [self.gradientColors mutableCopy];
 		colors[colors.count - 1] = gradientEndColor;
 		self.gradientColors = colors;
@@ -283,20 +273,6 @@
 		for (UIColor *color in self.gradientColors) {
 			[gradientColors addObject:(__bridge id)color.CGColor];
 		}
-		
-#ifdef TARGET_INTERFACE_BUILDER
-		[gradientColors removeAllObjects];
-		if (_gradientStartColor && _gradientEndColor) {
-			[gradientColors addObject:(__bridge id)_gradientStartColor.CGColor];
-			[gradientColors addObject:(__bridge id)_gradientEndColor.CGColor];
-		} else if (_gradientStartColor) {
-			[gradientColors addObject:(__bridge id)_gradientStartColor.CGColor];
-			[gradientColors addObject:(__bridge id)_gradientStartColor.CGColor];
-		} else if (_gradientEndColor) {
-			[gradientColors addObject:(__bridge id)_gradientEndColor.CGColor];
-			[gradientColors addObject:(__bridge id)_gradientEndColor.CGColor];
-		}
-#endif
 		
 		// Create gradient.
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();

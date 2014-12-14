@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.4.5
+//  Version 1.4.6
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -42,15 +42,6 @@
 //  3. This notice may not be removed or altered from any source distribution.
 //
 
-
-#ifndef IB_DESIGNABLE
-	#define IB_DESIGNABLE
-#endif
-#ifndef IBInspectable
-	#define IBInspectable
-#endif
-
-
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, THLabelStrokePosition) {
@@ -66,24 +57,23 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 	THLabelFadeTruncatingModeHeadAndTail = THLabelFadeTruncatingModeHead | THLabelFadeTruncatingModeTail
 };
 
-IB_DESIGNABLE
 @interface THLabel : UILabel
 
-@property (nonatomic, assign) IBInspectable CGFloat letterSpacing;
-@property (nonatomic, assign) IBInspectable CGFloat lineSpacing;
+@property (nonatomic, assign) CGFloat letterSpacing;
+@property (nonatomic, assign) CGFloat lineSpacing;
 
-@property (nonatomic, assign) IBInspectable CGFloat shadowBlur;
+@property (nonatomic, assign) CGFloat shadowBlur;
 
-@property (nonatomic, assign) IBInspectable CGFloat innerShadowBlur;
-@property (nonatomic, assign) IBInspectable CGSize innerShadowOffset;
-@property (nonatomic, strong) IBInspectable UIColor *innerShadowColor;
+@property (nonatomic, assign) CGFloat innerShadowBlur;
+@property (nonatomic, assign) CGSize innerShadowOffset;
+@property (nonatomic, strong) UIColor *innerShadowColor;
 
-@property (nonatomic, assign) IBInspectable CGFloat strokeSize;
-@property (nonatomic, strong) IBInspectable UIColor *strokeColor;
+@property (nonatomic, assign) CGFloat strokeSize;
+@property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, assign) THLabelStrokePosition strokePosition;
 
-@property (nonatomic, strong) IBInspectable UIColor *gradientStartColor;
-@property (nonatomic, strong) IBInspectable UIColor *gradientEndColor;
+@property (nonatomic, strong) UIColor *gradientStartColor;
+@property (nonatomic, strong) UIColor *gradientEndColor;
 @property (nonatomic, copy) NSArray *gradientColors;
 @property (nonatomic, assign) CGPoint gradientStartPoint;
 @property (nonatomic, assign) CGPoint gradientEndPoint;
@@ -91,6 +81,6 @@ IB_DESIGNABLE
 @property (nonatomic, assign) THLabelFadeTruncatingMode fadeTruncatingMode;
 
 @property (nonatomic, assign) UIEdgeInsets textInsets;
-@property (nonatomic, assign) IBInspectable BOOL automaticallyAdjustTextInsets;
+@property (nonatomic, assign) BOOL automaticallyAdjustTextInsets;
 
 @end
