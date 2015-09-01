@@ -1,7 +1,7 @@
 //
 //  THLabel.m
 //
-//  Version 1.4.5
+//  Version 1.4.6
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2014 tobiha.de. All rights reserved.
@@ -108,7 +108,7 @@
 	}
 	
 	CGRect textRect;
-	CTFrameRef frameRef = [self frameRefFromSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) textRectOutput:&textRect];
+	CTFrameRef frameRef = [self frameRefFromSize:CGSizeMake(self.preferredMaxLayoutWidth, CGFLOAT_MAX) textRectOutput:&textRect];
 	CFRelease(frameRef);
 	
 	return CGSizeMake(ceilf(CGRectGetWidth(textRect) + self.textInsets.left + self.textInsets.right),

@@ -1,3 +1,8 @@
+Version 1.4.6
+
+- Removed support for IB_DESIGNABLE and IBInspectable, until it doesn't cause problems with CocoaPods. Please us `ibdesignable` branch, if you're interested in this feature and not using CocoaPods.
+- Fixed bug regarding gradients introduced in last version.
+
 Version 1.4.5
 
 - Added support for IB_DESIGNABLE and IBInspectable, only available with Xcode 6.
