@@ -1,3 +1,8 @@
+Version 1.4.7
+
+- Set maximum width to preferredMaxLayoutWidth for intrinsicContentSize.
+- Fixed warning.
+
 Version 1.4.6
 
 - Removed support for IB_DESIGNABLE and IBInspectable, until it doesn't cause problems with CocoaPods. Please us `ibdesignable` branch, if you're interested in this feature and not using CocoaPods.
