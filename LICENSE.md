@@ -2,7 +2,7 @@ THLabel
 
 Version 1.4.7, November 26th, 2015
 
-Copyright (c) 2015 Tobias Hagemann, tobiha.de
+Copyright (c) 2012-2016 Tobias Hagemann, tobiha.de
 
 This software is provided 'as-is', without any express or implied
 warranty.  In no event will the authors be held liable for any damages
