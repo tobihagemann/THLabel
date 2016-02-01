@@ -4,7 +4,7 @@
 //  Version 1.4.7
 //
 //  Created by Tobias Hagemann on 11/25/12.
-//  Copyright (c) 2015 tobiha.de. All rights reserved.
+//  Copyright (c) 2012-2016 tobiha.de. All rights reserved.
 //
 //  Original source and inspiration from:
 //  FXLabel by Nick Lockwood,
@@ -12,7 +12,7 @@
 //  KSLabel by Kai Schweiger,
 //  https://github.com/vigorouscoding/KSLabel
 //  GTMFadeTruncatingLabel by Google,
-//  https://code.google.com/p/google-toolbox-for-mac/source/browse/trunk/iPhone/
+//  https://github.com/google/google-toolbox-for-mac/tree/master/iPhone
 //
 //  Big thanks to Jason Miller for showing me sample code of his implementation
 //  using Core Text! It inspired me to dig deeper and move away from drawing
