@@ -36,6 +36,8 @@ You can create THLabels programmatically, or create them in Interface Builder by
 
 ## Properties
 
+### Spacing
+
 ```objective-c
 @property CGFloat letterSpacing;
 @property CGFloat lineSpacing;
@@ -45,11 +47,15 @@ You can modify letter spacing of the text (also known as kerning) by changing th
 
 Modify line spacing of the text (also known as leading) by changing the `lineSpacing` property. The default value is `0.0`. Only positive values will have an effect.
 
+### Shadow Blur
+
 ```objective-c
 @property CGFloat shadowBlur;
 ```
 
 Additionally to UILabel's `shadowColor` and `shadowOffset`, you can set a shadow blur to soften the shadow.
+
+### Inner Shadow
 
 ```objective-c
 @property CGFloat innerShadowBlur;
@@ -59,6 +65,8 @@ Additionally to UILabel's `shadowColor` and `shadowOffset`, you can set a shadow
 
 The inner shadow has similar properties as UILabel's shadow, once again additionally with a shadow blur. If an inner shadow and a stroke are overlapping, it will appear beneath the stroke.
 
+### Stroke Text
+
 ```objective-c
 @property CGFloat strokeSize;
 @property UIColor *strokeColor;
@@ -66,6 +74,8 @@ The inner shadow has similar properties as UILabel's shadow, once again addition
 ```
 
 You can set an outer, centered or inner stroke by setting the `strokePosition` property. Default value is `THLabelStrokePositionOutside`. Other options are `THLabelStrokePositionCenter` and `THLabelStrokePositionInside`.
+
+### Fill Gradient
 
 ```objective-c
 @property UIColor *gradientStartColor;
@@ -79,11 +89,15 @@ The gradient can consist of multiple colors, which have to be saved as UIColor o
 
 The starting and ending points of the gradient are in the range 0 to 1, where (0, 0) is the top-left and (1, 1) the bottom-right of the text. The default value for `gradientStartPoint` is (0.5, 0.2) and for `gradientEndPoint` it is (0.5, 0.8).
 
+### Fade Truncating
+
 ```objective-c
 @property THLabelFadeTruncatingMode fadeTruncatingMode;
 ```
 
 You can fade in/out your label by setting the `fadeTruncatingMode` property. Default value is `THLabelFadeTruncatingModeNone`. The options are `THLabelFadeTruncatingModeTail`, `THLabelFadeTruncatingModeHead` and `THLabelFadeTruncatingModeHeadAndTail`.
+
+### Text Insets / Padding
 
 ```objective-c
 @property UIEdgeInsets textInsets;
