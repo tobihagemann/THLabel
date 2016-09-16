@@ -1,3 +1,7 @@
+Version 1.4.8
+
+- Fixed memory related crash.
+
 Version 1.4.7
 
 - Set maximum width to preferredMaxLayoutWidth for intrinsicContentSize.
