@@ -1,6 +1,6 @@
 THLabel
 
-Version 1.4.7, November 26th, 2015
+Version 1.4.8, September 17th, 2016
 
 Copyright (c) 2012-2016 Tobias Hagemann, tobiha.de
 

@@ -3,11 +3,11 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/THLabel.svg)](https://img.shields.io/cocoapods/v/THLabel.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/cocoapods/p/THLabel.svg?style=flat)](http://cocoadocs.org/docsets/THLabel)
-[![Twitter](https://img.shields.io/badge/twitter-@MuscleRumble-blue.svg?style=flat)](http://twitter.com/MuscleRumble)
+[![Twitter](https://img.shields.io/badge/twitter-@tobihagemann-blue.svg?style=flat)](https://twitter.com/tobihagemann)
 
 THLabel is a subclass of UILabel, which additionally allows shadow blur, inner shadow, stroke text and fill gradient.
 
-![THLabel screenshot](https://raw.githubusercontent.com/MuscleRumble/THLabel/master/screenshot.png "THLabel screenshot")
+![THLabel screenshot](https://raw.githubusercontent.com/tobihagemann/THLabel/master/screenshot.png "THLabel screenshot")
 
 ## Requirements
 
@@ -18,7 +18,7 @@ THLabel is a subclass of UILabel, which additionally allows shadow blur, inner s
 
 The easiest way to use THLabel in your app is via [CocoaPods](http://cocoapods.org/ "CocoaPods").
 
-1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4'`
+1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4.0'`
 2. Run the command `pod install` from the Podfile folder directory.
 
 ### Manual Installation
@@ -132,6 +132,6 @@ Distributed under the permissive zlib license. See the LICENSE file for more inf
 
 Tobias Hagemann
 
-- http://tobiha.de/
+- https://tobiha.de/
 - tobias.hagemann@gmail.com
-- https://twitter.com/MuscleRumble
+- https://twitter.com/tobihagemann

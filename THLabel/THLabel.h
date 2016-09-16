@@ -1,7 +1,7 @@
 //
 //  THLabel.h
 //
-//  Version 1.4.7
+//  Version 1.4.8
 //
 //  Created by Tobias Hagemann on 11/25/12.
 //  Copyright (c) 2012-2016 tobiha.de. All rights reserved.
@@ -21,7 +21,7 @@
 //  Distributed under the permissive zlib license
 //  Get the latest version from here:
 //
-//  https://github.com/MuscleRumble/THLabel
+//  https://github.com/tobihagemann/THLabel
 //
 //  This software is provided 'as-is', without any express or implied
 //  warranty.  In no event will the authors be held liable for any damages
