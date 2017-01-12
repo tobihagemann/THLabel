@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:THLabel.xcodeproj">
+      location = "group:Example/THLabelExample.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Example/THLabelExample.xcodeproj">
+      location = "container:THLabel.xcodeproj">
    </FileRef>
 </Workspace>
