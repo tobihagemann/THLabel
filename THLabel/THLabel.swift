@@ -67,9 +67,10 @@ class THLabel: UILabel {
     
     // MARK: - Accessors and Mutators
     
-    open var letterSpacing: CGFloat = 0.0
-    open var lineSpacing: CGFloat = 0.0
-    private var _shadowBlur: CGFloat = 0.0
+    open var letterSpacing: CGFloat     = 0.0
+    open var lineSpacing: CGFloat       = 0.0
+    
+    private var _shadowBlur: CGFloat    = 0.0
     open var shadowBlur: CGFloat {
         get {
             return _shadowBlur
@@ -79,12 +80,14 @@ class THLabel: UILabel {
         }
     }
     
-    open var innerShadowBlur: CGFloat = 0.0
-    open var innerShadowOffset = CGSize.zero
+    open var innerShadowBlur: CGFloat   = 0.0
+    open var innerShadowOffset: CGSize  = CGSize.zero
     open var innerShadowColor: UIColor!
-    open var strokeSize: CGFloat = 0.0
+    
+    open var strokeSize: CGFloat                    = 0.0
     open var strokeColor: UIColor!
-    open var strokePosition = THLabelStrokePosition.outside
+    open var strokePosition: THLabelStrokePosition  = THLabelStrokePosition.outside
+    
     open var gradientStartColor: UIColor! {
         get {
             return self.gradientColors.count > 0 ? self.gradientColors.first! : nil
@@ -135,10 +138,12 @@ class THLabel: UILabel {
         }
     }
     
-    open var gradientStartPoint = CGPoint.zero
-    open var gradientEndPoint = CGPoint.zero
-    open var fadeTruncatingMode = THLabelFadeTruncatingMode.none
-    private var _textInsets : UIEdgeInsets = UIEdgeInsets.zero
+    open var gradientStartPoint: CGPoint    = CGPoint.zero
+    open var gradientEndPoint: CGPoint      = CGPoint.zero
+    
+    open var fadeTruncatingMode: THLabelFadeTruncatingMode  = THLabelFadeTruncatingMode.none
+    
+    private var _textInsets : UIEdgeInsets  = UIEdgeInsets.zero
     open var textInsets : UIEdgeInsets {
         get {
             return _textInsets
@@ -151,7 +156,7 @@ class THLabel: UILabel {
         }
     }
     
-    open var isAutomaticallyAdjustTextInsets = false
+    open var isAutomaticallyAdjustTextInsets: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
