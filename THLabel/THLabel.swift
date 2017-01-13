@@ -48,14 +48,15 @@ import CoreFoundation
 import CoreText
 import CoreGraphics
 
-enum THLabelStrokePosition : Int {
+public enum THLabelStrokePosition : Int {
     case outside
     case center
     case inside
 }
 
-struct THLabelFadeTruncatingMode : OptionSet {
-    let rawValue: Int
+public struct THLabelFadeTruncatingMode : OptionSet {
+    public let rawValue: Int
+    public init(rawValue:Int) { self.rawValue = rawValue}
     
     static let none = THLabelFadeTruncatingMode(rawValue: 0)
     static let tail = THLabelFadeTruncatingMode(rawValue: 1 << 0)
@@ -63,6 +64,7 @@ struct THLabelFadeTruncatingMode : OptionSet {
     static let headAndTail : THLabelFadeTruncatingMode = [.tail, .head]
 }
 
+open
 class THLabel: UILabel {
     
     // MARK: - Accessors and Mutators
@@ -165,7 +167,7 @@ class THLabel: UILabel {
         self.setDefaults()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         self.setDefaults()
@@ -198,11 +200,11 @@ class THLabel: UILabel {
         return self.fadeTruncatingMode != THLabelFadeTruncatingMode.none
     }
     
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
+    override open func sizeThatFits(_ size: CGSize) -> CGSize {
         return self.intrinsicContentSize
     }
     
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         get {
             if self.text == nil || (self.text == "") {
                 return CGSize.zero
@@ -222,12 +224,11 @@ class THLabel: UILabel {
             // Stroke width times 2, because CG draws a centered stroke. We cut the rest into halves.
             return self.strokeSize * 2.0
         }
-        
     }
     
     // MARK: - Drawing
     
-    override func draw(_ rect: CGRect) {
+    override open func draw(_ rect: CGRect) {
         // Don't draw anything, if there is no text.
         if self.text == nil || (self.text == "") {
             return
