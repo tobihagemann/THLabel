@@ -6,8 +6,8 @@ Pod::Spec.new do |s|
   s.screenshots  = 'https://raw.githubusercontent.com/tobihagemann/THLabel/master/screenshot.png'
   s.license      = 'zlib'
   s.author       = { 'Tobias Hagemann' => 'tobias.hagemann@gmail.com' }
-  s.source       = { :git => 'https://github.com/tobihagemann/THLabel.git', :tag => s.version.to_s }
-  s.platform     = :ios, '4.0'
+  s.source       = { :git => 'https://github.com/tobihagemann/THLabel.git', :tag => s.version.to_s, :branch => 'swift'}
+  s.platform     = :ios, '8.0'
   s.source_files = 'THLabel'
   s.framework    = 'CoreText'
   s.requires_arc = true

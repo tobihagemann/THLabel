@@ -11,20 +11,19 @@ THLabel is a subclass of UILabel, which additionally allows shadow blur, inner s
 
 ## Requirements
 
-* iOS 4.0 or higher (below iOS 7.0 is untested though)
-* ARC enabled
+* iOS 8.0 or higher
 
 ## Installation
 
 The easiest way to use THLabel in your app is via [CocoaPods](http://cocoapods.org/ "CocoaPods").
 
-1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4.0'`
+1. Add the following line in the project's Podfile file: `pod 'THLabel', '~> 1.4.0', :branch => 'swift'`
 2. Run the command `pod install` from the Podfile folder directory.
 
 ### Manual Installation
 
 1. Add `CoreText.framework` to your *Link Binary with Libraries* list.
-2. Drag these files into your project: `THLabel.h`, `THLabel.m`
+2. Drag these files into your project: `THLabel.swift`
 
 ## IBDesignable / IBInspectable
 
@@ -38,9 +37,9 @@ You can create THLabels programmatically, or create them in Interface Builder by
 
 ### Spacing
 
-```objective-c
-@property CGFloat letterSpacing;
-@property CGFloat lineSpacing;
+```swift
+open var letterSpacing: CGFloat
+open var lineSpacing: CGFloat
 ```
 
 You can modify letter spacing of the text (also known as kerning) by changing the `letterSpacing` property. The default value is `0.0`. A positive value will separate the characters, whereas a negative value will make them closer.
@@ -49,40 +48,40 @@ Modify line spacing of the text (also known as leading) by changing the `lineSpa
 
 ### Shadow Blur
 
-```objective-c
-@property CGFloat shadowBlur;
+```swift
+open var shadowBlur: CGFloat
 ```
 
 Additionally to UILabel's `shadowColor` and `shadowOffset`, you can set a shadow blur to soften the shadow.
 
 ### Inner Shadow
 
-```objective-c
-@property CGFloat innerShadowBlur;
-@property CGSize innerShadowOffset;
-@property UIColor *innerShadowColor;
+```swift
+open var innerShadowBlur: CGFloat  
+open var innerShadowOffset: CGSize        
+open var innerShadowColor: UIColor!
 ```
 
 The inner shadow has similar properties as UILabel's shadow, once again additionally with a shadow blur. If an inner shadow and a stroke are overlapping, it will appear beneath the stroke.
 
 ### Stroke Text
 
-```objective-c
-@property CGFloat strokeSize;
-@property UIColor *strokeColor;
-@property THLabelStrokePosition strokePosition;
+```swift
+open var strokeSize: CGFloat                  
+open var strokeColor: UIColor!
+open var strokePosition: THLabelStrokePosition
 ```
 
-You can set an outer, centered or inner stroke by setting the `strokePosition` property. Default value is `THLabelStrokePositionOutside`. Other options are `THLabelStrokePositionCenter` and `THLabelStrokePositionInside`.
+You can set an outer, centered or inner stroke by setting the `strokePosition` property. Default value is `THLabelStrokePosition.outside`. Other options are `THLabelStrokePosition.center` and `THLabelStrokePosition.inside`.
 
 ### Fill Gradient
 
-```objective-c
-@property UIColor *gradientStartColor;
-@property UIColor *gradientEndColor;
-@property NSArray *gradientColors;
-@property CGPoint gradientStartPoint;
-@property CGPoint gradientEndPoint;
+```swift
+open var gradientStartColor: UIColor!
+open var gradientEndColor: UIColor!
+open var gradientColors : [UIColor]
+open var gradientStartPoint: CGPoint
+open var gradientEndPoint: CGPoint
 ```
 
 The gradient can consist of multiple colors, which have to be saved as UIColor objects in the `gradientColors` array. For more convenience, `gradientStartColor` and `gradientEndColor` will fill up the array accordingly.
@@ -91,26 +90,26 @@ The starting and ending points of the gradient are in the range 0 to 1, where (0
 
 ### Fade Truncating
 
-```objective-c
-@property THLabelFadeTruncatingMode fadeTruncatingMode;
+```swift
+open var fadeTruncatingMode: THLabelFadeTruncatingMode
 ```
 
-You can fade in/out your label by setting the `fadeTruncatingMode` property. Default value is `THLabelFadeTruncatingModeNone`. The options are `THLabelFadeTruncatingModeTail`, `THLabelFadeTruncatingModeHead` and `THLabelFadeTruncatingModeHeadAndTail`.
+You can fade in/out your label by setting the `fadeTruncatingMode` property. Default value is `THLabelFadeTruncatingMode.none`. The options are `THLabelFadeTruncatingMode.tail`, `THLabelFadeTruncatingMode.head` and `THLabelFadeTruncatingMode.headAndTail`.
 
 ### Text Insets / Padding
 
-```objective-c
-@property UIEdgeInsets textInsets;
-@property BOOL automaticallyAdjustTextInsets;
+```swift
+open var textInsets : UIEdgeInsets
+open var isAutomaticallyAdjustTextInsets: Bool
 ```
 
-Effects like stroke and shadow can't be drawn outside of the bounds of the label view. You may need to set text insets to move a bit away from the edge so that the effects don't get clipped. This will be automatically done if you set `automaticallyAdjustTextInsets` to `YES`, which is also the default value.
+Effects like stroke and shadow can't be drawn outside of the bounds of the label view. You may need to set text insets to move a bit away from the edge so that the effects don't get clipped. This will be automatically done if you set `automaticallyAdjustTextInsets` to `true`, which is also the default value.
 
 ## Notes
 
 THLabel respects (unlike UILabel) the `contentMode` property, which is used for vertical alignment. The `textAlignment` still has the higher priority, when it comes to horizontal alignment.
 
-However THLabel doesn't respect the `numberOfLines` property, because Core Text doesn't support it natively. If you would like to have multiple lines, set `lineBreakMode` to `NSLineBreakByWordWrapping`.
+However THLabel doesn't respect the `numberOfLines` property, because Core Text doesn't support it natively. If you would like to have multiple lines, set `lineBreakMode` to `.byWordWrapping`.
 
 THLabels are slower to draw than UILabels, so be aware of that.
 
@@ -118,11 +117,11 @@ THLabels are slower to draw than UILabels, so be aware of that.
 
 Original source and inspiration from:
 
+- THLabel by Tobias Hagemann, https://github.com/tobihagemann/THLabel
+- THLabel(swift) by Vitalii Parovishnyk, https://github.com/IGRSoft/THLabel
 - FXLabel by Nick Lockwood, https://github.com/nicklockwood/FXLabel
 - KSLabel by Kai Schweiger, https://github.com/vigorouscoding/KSLabel
 - GTMFadeTruncatingLabel by Google, https://github.com/google/google-toolbox-for-mac/tree/master/iPhone
-
-Big thanks to Jason Miller for showing me sample code of his implementation using Core Text! It inspired me to dig deeper and move away from drawing with NSAttributedString on iOS 7, which caused a lot of problems.
 
 ## License
 
