@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="456-qT-Q4o">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="456-qT-Q4o">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,20 +18,23 @@
                         <viewControllerLayoutGuide type="bottom" id="YgO-bg-AGl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="SDI-Oa-UQz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RvV-Ry-Pmc">
+                                <rect key="frame" x="206.5" y="44" width="1" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="Idk-oI-pQy"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="242-9J-wkw">
+                                <rect key="frame" x="206.5" y="162" width="1" height="68.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="7H9-cU-Chf"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Inner Shadow" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Hs-P2-hla" customClass="THLabel">
+                                <rect key="frame" x="80" y="230.5" width="254.5" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -48,11 +54,13 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f7f-G5-eel">
+                                <rect key="frame" x="206.5" y="278.5" width="1" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="mwt-jD-Kbj"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Stroke" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jH-TU-5Wy" customClass="THLabel">
+                                <rect key="frame" x="146.5" y="346.5" width="121.5" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -69,11 +77,13 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GY1-3x-3u4">
+                                <rect key="frame" x="206.5" y="394.5" width="1" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="tGI-oT-twv"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fill Gradient" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nq3-xL-Qnv" customClass="THLabel">
+                                <rect key="frame" x="96" y="462.5" width="222" height="48"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -90,11 +100,13 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zru-we-rnl">
+                                <rect key="frame" x="206.5" y="510.5" width="1" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="6zq-Xu-jdY"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fade Truncating" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hn-LK-JBo" customClass="THLabel">
+                                <rect key="frame" x="67" y="578.5" width="280" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="i8g-AK-I01"/>
                                 </constraints>
@@ -106,11 +118,13 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tll-cY-m2c">
+                                <rect key="frame" x="206.5" y="626.5" width="1" height="68.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="nbB-o5-t9w"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Everything" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rm8-tw-CKi" customClass="THLabel">
+                                <rect key="frame" x="107" y="695" width="200" height="50"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -144,11 +158,13 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yMb-iY-HPI">
+                                <rect key="frame" x="206.5" y="745" width="1" height="68"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="c0E-Sw-2rX"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Shadow Blur" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgk-sv-MPR" customClass="THLabel">
+                                <rect key="frame" x="90" y="112" width="234" height="50"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -247,18 +263,19 @@
             <objects>
                 <tableViewController id="xNT-Vz-byx" customClass="TableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="88" sectionHeaderHeight="22" sectionFooterHeight="22" id="ZJ2-1s-TVL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" id="mCV-Q8-hKW" customClass="TableViewCell">
-                                <rect key="frame" x="0.0" y="22" width="375" height="88"/>
+                                <rect key="frame" x="0.0" y="22" width="414" height="88"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mCV-Q8-hKW" id="9WU-LZ-o95">
-                                    <frame key="frameInset" width="375" height="87"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="87.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsU-NM-FUa" customClass="THLabel">
+                                            <rect key="frame" x="15" y="0.0" width="384" height="87.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>

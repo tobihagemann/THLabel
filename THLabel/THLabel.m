@@ -1,10 +1,10 @@
 //
 //  THLabel.m
 //
-//  Version 1.4.8
+//  Version 1.4.9
 //
 //  Created by Tobias Hagemann on 11/25/12.
-//  Copyright (c) 2012-2016 tobiha.de. All rights reserved.
+//  Copyright (c) 2012-2019 tobiha.de. All rights reserved.
 //
 //  Original source and inspiration from:
 //  FXLabel by Nick Lockwood,
@@ -426,7 +426,7 @@
 
 - (CTFrameRef)frameRefFromSize:(CGSize)size textRectOutput:(CGRect *)textRectOutput CF_RETURNS_RETAINED {
 	// Set up font.
-	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
+	CTFontRef fontRef = CTFontCreateWithFontDescriptor((__bridge CTFontDescriptorRef)self.font.fontDescriptor, self.font.pointSize, NULL);
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
 	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment(self.textAlignment);
 #else
