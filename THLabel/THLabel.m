@@ -426,7 +426,7 @@
 
 - (CTFrameRef)frameRefFromSize:(CGSize)size textRectOutput:(CGRect *)textRectOutput CF_RETURNS_RETAINED {
 	// Set up font.
-	CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName, self.font.pointSize, NULL);
+	CTFontRef fontRef = CTFontCreateWithFontDescriptor((__bridge CTFontDescriptorRef)self.font.fontDescriptor, self.font.pointSize, NULL);
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
 	CTTextAlignment alignment = NSTextAlignmentToCTTextAlignment(self.textAlignment);
 #else
