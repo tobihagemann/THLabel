@@ -390,7 +390,7 @@ class THLabel: UILabel {
     
     fileprivate func frameRef(from size: CGSize) -> (CTFrame: CTFrame, CGRect: CGRect) {
         // Set up font.
-        let fontRef = CTFontCreateWithName((self.font.fontName as CFString), self.font.pointSize, nil)
+		let fontRef = CTFontCreateWithFontDescriptor((self.font.fontDescriptor as CTFontDescriptor), self.font.pointSize, nil)
         var alignment = NSTextAlignmentToCTTextAlignment(self.textAlignment)
         var lineBreakMode = CTLineBreakModeFromUILineBreakMode(self.lineBreakMode)
         var lineSpacing = self.lineSpacing
