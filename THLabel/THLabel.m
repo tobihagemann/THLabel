@@ -1,10 +1,10 @@
 //
 //  THLabel.m
 //
-//  Version 1.4.8
+//  Version 1.4.9
 //
 //  Created by Tobias Hagemann on 11/25/12.
-//  Copyright (c) 2012-2016 tobiha.de. All rights reserved.
+//  Copyright (c) 2012-2019 tobiha.de. All rights reserved.
 //
 //  Original source and inspiration from:
 //  FXLabel by Nick Lockwood,

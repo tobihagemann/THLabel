@@ -1,3 +1,7 @@
+Version 1.4.9
+
+- Fixed warnings and showing incorrect fonts on iOS 13, kudos to @sochalewski.
+
 Version 1.4.8
 
 - Fixed memory related crash.

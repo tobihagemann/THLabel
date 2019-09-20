@@ -1,8 +1,8 @@
 THLabel
 
-Version 1.4.8, September 17th, 2016
+Version 1.4.9, September 20th, 2019
 
-Copyright (c) 2012-2016 Tobias Hagemann, tobiha.de
+Copyright (c) 2012-2019 Tobias Hagemann, tobiha.de
 
 This software is provided 'as-is', without any express or implied
 warranty.  In no event will the authors be held liable for any damages
