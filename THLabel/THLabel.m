@@ -523,6 +523,14 @@
 			textRect.origin.x = floorf(CGRectGetMinX(contentRect) + CGRectGetWidth(contentRect) - CGRectGetWidth(textRect));
 			break;
 			
+		case NSTextAlignmentNatural:
+			if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+				textRect.origin.x = floorf(CGRectGetMinX(contentRect) + CGRectGetWidth(contentRect) - CGRectGetWidth(textRect));
+			} else {
+				textRect.origin.x = floorf(CGRectGetMinX(contentRect));
+			}
+			break;
+			
 		default:
 			textRect.origin.x = floorf(CGRectGetMinX(contentRect));
 			break;
