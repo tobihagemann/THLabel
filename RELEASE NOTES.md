@@ -1,3 +1,7 @@
+Version 1.4.10
+
+- Fixed layout for RTL mode, kudos to @morozkin.
+
 Version 1.4.9
 
 - Fixed warnings and showing incorrect fonts on iOS 13, kudos to @sochalewski.

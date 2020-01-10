@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'THLabel'
-  s.version      = '1.4.9'
+  s.version      = '1.4.10'
   s.summary      = 'THLabel is a subclass of UILabel, which additionally allows shadow blur, inner shadow, stroke text and fill gradient.'
   s.homepage     = 'https://github.com/tobihagemann/THLabel'
   s.screenshots  = 'https://raw.githubusercontent.com/tobihagemann/THLabel/master/screenshot.png'
