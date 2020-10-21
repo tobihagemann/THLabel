@@ -391,7 +391,7 @@ class THLabel: UILabel {
     fileprivate func frameRef(from size: CGSize) -> (CTFrame: CTFrame, CGRect: CGRect) {
         // Set up font.
 		let fontRef = CTFontCreateWithFontDescriptor((self.font.fontDescriptor as CTFontDescriptor), self.font.pointSize, nil)
-        var alignment = NSTextAlignmentToCTTextAlignment(self.textAlignment)
+        var alignment = CTTextAlignment(self.textAlignment)
         var lineBreakMode = CTLineBreakModeFromUILineBreakMode(self.lineBreakMode)
         var lineSpacing = self.lineSpacing
         let paragraphStyleSettings: [CTParagraphStyleSetting] = [
@@ -407,7 +407,7 @@ class THLabel: UILabel {
         let values: [CFTypeRef] = [fontRef, paragraphStyleRef, self.textColor.cgColor, kernRef!]
         
         let attributes = NSDictionary(objects: values, forKeys: keys as [NSCopying])
-        let stringRef = (self.text as! CFString)
+        let stringRef = (self.text! as CFString)
         let attributedStringRef = CFAttributedStringCreate(kCFAllocatorDefault, stringRef, attributes as CFDictionary)
         // Set up frame.
         let framesetterRef = CTFramesetterCreateWithAttributedString(attributedStringRef!)
@@ -419,7 +419,7 @@ class THLabel: UILabel {
         let textRect = self.textRect(fromContentRect: contentRect, framesetterRef: framesetterRef)
         let pathRef = CGMutablePath()
         pathRef.addRect(textRect, transform: .identity)
-        let frameRef = CTFramesetterCreateFrame(framesetterRef, CFRangeMake(0, (self.text?.characters.count)!), pathRef, nil)
+        let frameRef = CTFramesetterCreateFrame(framesetterRef, CFRangeMake(0, (self.text?.count)!), pathRef, nil)
         
         return (frameRef, textRect)
     }
@@ -435,9 +435,9 @@ class THLabel: UILabel {
     }
     
     fileprivate func textRect(fromContentRect contentRect: CGRect, framesetterRef: CTFramesetter) -> CGRect {
-        var suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, (self.text?.characters.count)!), nil, contentRect.size, nil)
+        var suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, (self.text?.count)!), nil, contentRect.size, nil)
         if suggestedTextRectSize.equalTo(CGSize.zero) {
-            suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, (self.text?.characters.count)!), nil, CGSize(width: CGFloat(CGFloat.greatestFiniteMagnitude), height: CGFloat(CGFloat.greatestFiniteMagnitude)), nil)
+            suggestedTextRectSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetterRef, CFRangeMake(0, (self.text?.count)!), nil, CGSize(width: CGFloat(CGFloat.greatestFiniteMagnitude), height: CGFloat(CGFloat.greatestFiniteMagnitude)), nil)
         }
         var textRect = CGRect(x: CGFloat(0.0), y: CGFloat(0.0), width: CGFloat(ceilf(Float(suggestedTextRectSize.width))), height: CGFloat(ceilf(Float(suggestedTextRectSize.height))))
         // Horizontal alignment.
@@ -470,9 +470,9 @@ class THLabel: UILabel {
         if hasStroke {
             switch self.strokePosition {
             case .outside:
-                edgeInsets = UIEdgeInsetsMake(self.strokeSize, self.strokeSize, self.strokeSize, self.strokeSize)
+                edgeInsets = UIEdgeInsets(top: self.strokeSize, left: self.strokeSize, bottom: self.strokeSize, right: self.strokeSize)
             case .inside:
-                edgeInsets = UIEdgeInsetsMake(self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0, self.strokeSize / 2.0)
+                edgeInsets = UIEdgeInsets(top: self.strokeSize / 2.0, left: self.strokeSize / 2.0, bottom: self.strokeSize / 2.0, right: self.strokeSize / 2.0)
             default:
                 break
             }
