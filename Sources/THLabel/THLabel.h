@@ -44,9 +44,6 @@
 
 #import <UIKit/UIKit.h>
 
-#ifndef THLabel_h
-#define THLabel_h
-
 //! Project version number for THLabel.
 FOUNDATION_EXPORT double THLabelVersionNumber;
 
@@ -96,3 +93,4 @@ typedef NS_OPTIONS(NSUInteger, THLabelFadeTruncatingMode) {
 @property (nonatomic, assign) BOOL automaticallyAdjustTextInsets;
 
 @end
+
