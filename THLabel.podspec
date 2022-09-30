@@ -11,4 +11,5 @@ Pod::Spec.new do |s|
   s.source_files = 'THLabel'
   s.framework    = 'CoreText'
   s.requires_arc = true
+  s.source_files = 'Sources/THLabel/`
 end
